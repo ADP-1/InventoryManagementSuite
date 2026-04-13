@@ -55,6 +55,13 @@ public class Invoice extends BaseEntity {
     @Builder.Default
     private BigDecimal total = BigDecimal.ZERO;
 
+    @Column(name = "tax_percent", nullable = false, precision = 5, scale = 2)
+    @Builder.Default
+    private BigDecimal taxPercent = BigDecimal.ZERO;
+
+    @Column(name = "notes", length = 500)
+    private String notes;
+
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<InvoiceItem> items = new ArrayList<>();

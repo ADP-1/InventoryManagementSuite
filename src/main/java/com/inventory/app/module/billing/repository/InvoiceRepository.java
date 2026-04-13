@@ -1,10 +1,12 @@
 package com.inventory.app.module.billing.repository;
 
 import com.inventory.app.module.billing.entity.Invoice;
+import com.inventory.app.module.billing.entity.InvoiceStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,5 +17,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
 
     boolean existsByInvoiceNumber(String invoiceNumber);
 
-    List<Invoice> findByCustomerId(UUID customerId);
+    Page<Invoice> findByCustomerId(UUID customerId, Pageable pageable);
+
+    Page<Invoice> findByStatus(InvoiceStatus status, Pageable pageable);
 }
