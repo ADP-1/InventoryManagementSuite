@@ -27,7 +27,9 @@ server:
   servlet:
     context-path: /api/v1
 
-# JWT Settings Placeholder
-jwt:
-  secret: ${JWT_SECRET:ReplaceWithYourVerySecureBase64EncodedSecretKeyForJwtSigningUseAtLeast256BitsLongSecretString}
-  expiration: ${JWT_EXPIRATION_MS:86400000} # 24 hours
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET:dGhpcxMxc2VjcmV0a2V5Zm9yaW52ZW50b3J5YmlsbGluZ3N5c3RlbXVzaW5nSFMyNTZhbGdvcml0aG0hMjAyNg==}
+      expiration: 86400000        # 24 hours in ms
+      refresh-expiration: 604800000 # 7 days in ms
