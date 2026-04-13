@@ -7,10 +7,15 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
 
     Optional<Category> findByName(String name);
 
     boolean existsByName(String name);
+
+    Page<Category> findAllByActiveTrue(Pageable pageable);
 }

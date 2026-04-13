@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Local secrets - NEVER commit ###
+*-local.yml
+*.env
+.env

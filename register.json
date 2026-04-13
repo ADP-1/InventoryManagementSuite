@@ -1,0 +1,6 @@
+{
+  "name": "Test Admin",
+  "email": "admin@inventory.com",
+  "password": "Admin@1234",
+  "role": "ADMIN"
+}

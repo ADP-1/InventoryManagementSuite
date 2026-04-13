@@ -36,4 +36,8 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @Column(name = "active", nullable = false)
+    @Builder.Default
+    private boolean active = true;
 }
