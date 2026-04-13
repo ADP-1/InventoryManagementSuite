@@ -26,4 +26,8 @@ public class Customer extends BaseEntity {
 
     @Column(name = "address", length = 255)
     private String address;
+
+    @Column(name = "active", nullable = false)
+    @Builder.Default
+    private boolean active = true;
 }
