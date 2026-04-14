@@ -22,7 +22,8 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
 
     @Query("SELECT c FROM Customer c WHERE c.active = true AND " +
            "(LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(c.email) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+           "LOWER(c.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(c.phone) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     Page<Customer> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
     // Check for active invoices before soft delete

@@ -81,10 +81,10 @@ public class ProductController {
 
     @GetMapping("/search")
     @PreAuthorize("isAuthenticated()")
-    @Operation(summary = "Search products by name or SKU")
+    @Operation(summary = "Search products by name, SKU or price")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK")
     public ResponseEntity<ApiResponse<PagedResponse<ProductResponse>>> search(
-            @Parameter(description = "Keyword to search in name or SKU") @RequestParam String keyword, 
+            @Parameter(description = "Keyword to search in name, SKU or price") @RequestParam String keyword, 
             @ParameterObject Pageable pageable) {
         PagedResponse<ProductResponse> response = productService.search(keyword, pageable);
         return ResponseEntity.ok(ApiResponse.success(response));

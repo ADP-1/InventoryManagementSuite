@@ -21,6 +21,12 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     Page<Product> findByCategoryIdAndActiveTrue(UUID categoryId, Pageable pageable);
 
+    @org.springframework.data.jpa.repository.Query("SELECT p FROM Product p WHERE p.active = true AND " +
+           "(LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(p.sku) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "CAST(p.price AS string) LIKE CONCAT('%', :keyword, '%'))")
+    Page<Product> searchByKeyword(@org.springframework.data.repository.query.Param("keyword") String keyword, Pageable pageable);
+
     Page<Product> findByNameContainingIgnoreCaseAndActiveTrue(String keyword, Pageable pageable);
 
     boolean existsByCategoryIdAndActiveTrue(UUID categoryId);

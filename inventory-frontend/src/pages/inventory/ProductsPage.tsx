@@ -170,7 +170,7 @@ const ProductsPage: React.FC = () => {
           </div>
           <input
             type="text"
-            placeholder="Search products..."
+            placeholder="Search by name, SKU or price..."
             className="block w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
             onChange={(e) => setParams(p => ({ ...p, search: e.target.value, page: 0 }))}
           />

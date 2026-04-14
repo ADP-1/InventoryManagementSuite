@@ -48,8 +48,8 @@ public class InvoiceController {
     })
     public ResponseEntity<ApiResponse<InvoiceResponse>> create(
             @Valid @RequestBody InvoiceRequest request,
-            @Parameter(hidden = true) @AuthenticationPrincipal User currentUser) {
-        InvoiceResponse response = billingService.createInvoice(request, currentUser.getId());
+            @Parameter(hidden = true) @AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails currentUser) {
+        InvoiceResponse response = billingService.createInvoice(request, currentUser.getUsername());
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(response));
     }
 

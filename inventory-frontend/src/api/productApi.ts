@@ -4,6 +4,13 @@ import { ApiResponse, PagedResponse, PageParams } from '../types/common.types';
 
 export const productApi = {
   getAll: async (params?: PageParams & { search?: string }) => {
+    if (params?.search) {
+      const { search, ...restParams } = params;
+      const response = await axiosInstance.get<ApiResponse<PagedResponse<ProductResponse>>>('/inventory/products/search', { 
+        params: { keyword: search, ...restParams } 
+      });
+      return response.data;
+    }
     const response = await axiosInstance.get<ApiResponse<PagedResponse<ProductResponse>>>('/inventory/products', { params });
     return response.data;
   },

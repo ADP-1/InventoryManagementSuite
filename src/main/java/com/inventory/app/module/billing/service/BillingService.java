@@ -49,7 +49,7 @@ public class BillingService {
     // ─── Create Invoice ───────────────────────────────────────────────────────
 
     @Transactional
-    public InvoiceResponse createInvoice(InvoiceRequest request, UUID createdByUserId) {
+    public InvoiceResponse createInvoice(InvoiceRequest request, String createdByEmail) {
         // Validate customer
         Customer customer = customerRepository.findById(request.getCustomerId())
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", request.getCustomerId()));
@@ -59,8 +59,8 @@ public class BillingService {
         }
 
         // Validate creator user
-        User createdBy = userRepository.findById(createdByUserId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", createdByUserId));
+        User createdBy = userRepository.findByEmail(createdByEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", createdByEmail));
 
         // Build line items + calculate subtotal
         List<InvoiceItem> lineItems = new ArrayList<>();

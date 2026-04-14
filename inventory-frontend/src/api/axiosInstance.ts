@@ -69,8 +69,8 @@ axiosInstance.interceptors.response.use(
         if (response.data.success) {
           const newAuthData = response.data.data;
           setAuth(newAuthData);
-          processQueue(null, newAuthData.accessToken);
-          originalRequest.headers.Authorization = `Bearer ${newAuthData.accessToken}`;
+          processQueue(null, newAuthData.access_token);
+          originalRequest.headers.Authorization = `Bearer ${newAuthData.access_token}`;
           return axiosInstance(originalRequest);
         }
       } catch (refreshError) {

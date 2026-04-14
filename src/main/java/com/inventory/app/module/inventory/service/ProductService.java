@@ -76,7 +76,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public PagedResponse<ProductResponse> search(String keyword, Pageable pageable) {
-        Page<ProductResponse> page = productRepository.findByNameContainingIgnoreCaseAndActiveTrue(keyword, pageable)
+        Page<ProductResponse> page = productRepository.searchByKeyword(keyword, pageable)
                 .map(productMapper::toResponse);
         return PagedResponse.of(page);
     }

@@ -9,7 +9,7 @@ def main():
     try:
         print("Logging in...")
         auth_data = login()
-        token = auth_data.get("accessToken")
+        token = auth_data.get("access_token")
         role = auth_data.get("role")
         print(f"Login successful. Role: {role}")
 
@@ -35,6 +35,7 @@ def main():
                         category_ids.append(c["id"])
                         break
             else:
+                print(f"Status Code: {resp.status_code}, Response Body: {resp.text}")
                 resp.raise_for_status()
                 category_ids.append(resp.json()["data"]["id"])
         
@@ -62,6 +63,7 @@ def main():
                         product_ids.append(p["id"])
                         break
             else:
+                print(f"Status Code: {resp.status_code}, Response Body: {resp.text}")
                 resp.raise_for_status()
                 product_ids.append(resp.json()["data"]["id"])
         
@@ -86,6 +88,7 @@ def main():
                         customer_ids.append(c["id"])
                         break
             else:
+                print(f"Status Code: {resp.status_code}, Response Body: {resp.text}")
                 resp.raise_for_status()
                 customer_ids.append(resp.json()["data"]["id"])
         

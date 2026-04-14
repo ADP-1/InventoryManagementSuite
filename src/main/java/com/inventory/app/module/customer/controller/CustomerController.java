@@ -68,10 +68,10 @@ public class CustomerController {
 
     @GetMapping("/search")
     @PreAuthorize("isAuthenticated()")
-    @Operation(summary = "Search customers by name or email")
+    @Operation(summary = "Search customers by name, email or phone")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK")
     public ResponseEntity<ApiResponse<PagedResponse<CustomerResponse>>> search(
-            @Parameter(description = "Keyword to search in name or email") @RequestParam String keyword, 
+            @Parameter(description = "Keyword to search in name, email or phone") @RequestParam String keyword, 
             @ParameterObject Pageable pageable) {
         PagedResponse<CustomerResponse> response = customerService.search(keyword, pageable);
         return ResponseEntity.ok(ApiResponse.success(response));

@@ -4,7 +4,9 @@ import { ApiResponse, PagedResponse, PageParams } from '../types/common.types';
 
 export const invoiceApi = {
   getAll: async (params?: PageParams & { status?: InvoiceStatus; customerId?: string }) => {
-    const response = await axiosInstance.get<ApiResponse<PagedResponse<InvoiceResponse>>>('/billing/invoices', { params });
+    const url = params?.status ? `/billing/invoices/status/${params.status}` : '/billing/invoices';
+    const { status, ...restParams } = params || {};
+    const response = await axiosInstance.get<ApiResponse<PagedResponse<InvoiceResponse>>>(url, { params: restParams });
     return response.data;
   },
   getById: async (id: string) => {
