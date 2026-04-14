@@ -40,3 +40,8 @@ out/
 *-local.yml
 *.env
 .env
+
+### Scripts ###
+*.py
+seed_data.py
+seed_indian_data.py
