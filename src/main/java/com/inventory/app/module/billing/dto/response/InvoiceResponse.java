@@ -1,5 +1,6 @@
 package com.inventory.app.module.billing.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.inventory.app.module.billing.entity.InvoiceStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,12 +18,17 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Full invoice with line items")
 public class InvoiceResponse {
 
+    @Schema(description = "Unique identifier of the invoice")
     private UUID id;
+    @Schema(description = "Human-readable invoice number")
     private String invoiceNumber;
 
+    @Schema(description = "ID of the customer associated with the invoice")
     private UUID customerId;
+    @Schema(description = "Name of the customer")
     private String customerName;
     private String customerEmail;
 

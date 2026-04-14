@@ -1,5 +1,6 @@
 package com.inventory.app.module.inventory.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,12 +25,18 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Product with category info")
 public class ProductResponse {
 
+    @Schema(description = "Unique identifier of the product")
     private UUID id;
+    @Schema(description = "Name of the product")
     private String name;
+    @Schema(description = "Stock Keeping Unit")
     private String sku;
+    @Schema(description = "Detailed description of the product")
     private String description;
+    @Schema(description = "Price of the product")
     private BigDecimal price;
     private int quantity;
     private boolean active;
