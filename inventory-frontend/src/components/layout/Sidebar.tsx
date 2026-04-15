@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Box, Tags, Users, FileText, LogOut } from 'lucide-react';
+import { LayoutDashboard, Box, Tags, Users, FileText, BarChart2, LogOut } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { cn } from '../../lib/utils';
 
 const navItems = [
   { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
+  { name: 'Analytics', icon: BarChart2, path: '/analytics', roles: ['ADMIN', 'MANAGER'] },
   { name: 'Categories', icon: Tags, path: '/inventory/categories' },
   { name: 'Products', icon: Box, path: '/inventory/products' },
   { name: 'Customers', icon: Users, path: '/customers' },
@@ -22,10 +23,12 @@ const Sidebar: React.FC = () => {
       </div>
 
       <nav className="flex-1 px-4 space-y-1">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
+        {navItems
+          .filter(item => !item.roles || (role && item.roles.includes(role)))
+          .map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
             className={({ isActive }) =>
               cn(
                 'flex items-center px-4 py-3 rounded-lg transition-colors',

@@ -10,6 +10,7 @@ const CategoriesPage = React.lazy(() => import('../pages/inventory/CategoriesPag
 const ProductsPage = React.lazy(() => import('../pages/inventory/ProductsPage'));
 const CustomersPage = React.lazy(() => import('../pages/customers/CustomersPage'));
 const InvoicesPage = React.lazy(() => import('../pages/billing/InvoicesPage'));
+const AnalyticsPage = React.lazy(() => import('../pages/analytics/AnalyticsPage'));
 
 const SuspenseLayout = () => (
   <Suspense fallback={
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
       {
         path: 'billing/invoices',
         element: <InvoicesPage />,
+      },
+      {
+        path: 'analytics',
+        element: <AnalyticsPage />,
       },
     ],
   },
