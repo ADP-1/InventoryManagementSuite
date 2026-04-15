@@ -3,15 +3,15 @@
 # 📦 Inventory & Billing Management System
 
 [![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.java.net/)
-[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![React](https://img.shields.io/badge/React-18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)****
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![React](https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-A modern, full-stack enterprise application for managing inventory, tracking stock levels, handling customers, and generating professional invoices.
+A modern, high-performance enterprise application for managing inventory, tracking stock levels, handling customers, and generating professional PDF invoices.
 
-[Features](#features) • [Architecture](#architecture) • [Tech Stack](#tech-stack) • [Getting Started](#getting-started) • [API Docs](#api-documentation)
+[Features](#features) • [Architecture](#architecture) • [Tech Stack](#tech-stack) • [Getting Started](#getting-started) • [Production Readiness](#production-readiness) • [API Docs](#api-documentation)
 
 </div>
 
@@ -20,30 +20,36 @@ A modern, full-stack enterprise application for managing inventory, tracking sto
 ## ✨ Features
 
 🔐 **Role-Based Access Control (RBAC)**
-* Secure JWT authentication.
+* Secure JWT authentication with automated refresh flow.
 * Distinct roles: **ADMIN**, **MANAGER**, and **CASHIER** with fine-grained UI and API guards.
+
+📊 **Interactive Dashboard & Analytics**
+* Real-time revenue charts (last 6 months) using Recharts.
+* Key performance metrics: Total Revenue, Pending Invoices, Low Stock Alerts, and Customer count.
+* Critical stock replenishment table with visual status badges.
 
 📦 **Intelligent Inventory Management**
 * Hierarchical product categorization.
 * Real-time stock tracking with automated deduction upon invoice creation.
-* Configurable "Low Stock" alerts and automated thresholds.
-* Full stock adjustment auditing (tracking manual additions/deductions).
+* Full stock adjustment auditing with detailed reason tracking.
+* **Export to CSV** for products and categories (Admin/Manager only).
 
 👥 **Customer Directory**
 * Comprehensive customer profiles with address and contact details.
 * Deep search across names, emails, and phone numbers.
-* Centralized view of individual customer invoice history.
+* **Export to CSV** for customer lists.
 
 🧾 **Advanced Billing & Invoicing Engine**
 * Dynamic line-item additions with real-time subtotal, tax, and discount calculations.
-* Complex invoice lifecycle state machine: `DRAFT` ➔ `ISSUED` ➔ `PAID` (or `CANCELLED`).
-* Automated stock restoration if an invoice is cancelled.
+* Complex invoice lifecycle: `DRAFT` ➔ `ISSUED` ➔ `PAID` (or `CANCELLED`).
+* **Professional PDF Generation:** Download beautiful, system-generated PDF invoices for clients.
+* **Export to CSV** with status and date filters.
 
 ---
 
 ## 🏗️ Architecture
 
-The system follows a modern decoupled architecture, utilizing a RESTful Spring Boot backend serving a responsive React Single Page Application (SPA).
+The system follows a decoupled architecture, utilizing a RESTful Spring Boot 3.4 backend serving a responsive React 19 SPA.
 
 ```mermaid
 graph TD
@@ -55,6 +61,8 @@ graph TD
         Gateway --> Inv[📦 Inventory Module]
         Gateway --> Bill[🧾 Billing Module]
         Gateway --> Cust[👥 Customer Module]
+        Gateway --> Dash[📊 Dashboard Module]
+        Gateway --> Export[📤 Export Module]
     end
     
     Auth -.-> DB[(🗄️ PostgreSQL)]
@@ -70,205 +78,75 @@ graph TD
 
 ---
 
-## 🗄️ Database Schema
-
-The core relational data model is managed via PostgreSQL and tracks users, customers, inventory, and complete invoice lifecycles.
-
-```mermaid
-erDiagram
-    USERS ||--o{ INVOICES : "creates"
-    USERS ||--o{ STOCK_AUDITS : "performs"
-    CUSTOMERS ||--o{ INVOICES : "has"
-    CATEGORIES ||--o{ PRODUCTS : "contains"
-    PRODUCTS ||--o{ STOCK_AUDITS : "audited via"
-    PRODUCTS ||--o{ INVOICE_ITEMS : "included in"
-    INVOICES ||--|{ INVOICE_ITEMS : "contains"
-
-    USERS {
-        UUID id PK
-        VARCHAR name
-        VARCHAR email UK
-        VARCHAR password
-        VARCHAR role
-        BOOLEAN active
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-
-    CUSTOMERS {
-        UUID id PK
-        VARCHAR name
-        VARCHAR email UK
-        VARCHAR phone
-        TEXT address
-        BOOLEAN active
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-
-    CATEGORIES {
-        UUID id PK
-        VARCHAR name UK
-        TEXT description
-        BOOLEAN active
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-
-    PRODUCTS {
-        UUID id PK
-        VARCHAR name
-        VARCHAR sku UK
-        TEXT description
-        DECIMAL price
-        INTEGER quantity
-        UUID category_id FK
-        BOOLEAN active
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-
-    STOCK_AUDITS {
-        UUID id PK
-        UUID product_id FK
-        VARCHAR adjustment_type
-        INTEGER quantity
-        VARCHAR reason
-        UUID performed_by_id FK
-        TIMESTAMP created_at
-    }
-
-    INVOICES {
-        UUID id PK
-        VARCHAR invoice_number UK
-        UUID customer_id FK
-        UUID user_id FK
-        VARCHAR status
-        DECIMAL subtotal
-        DECIMAL tax_percent
-        DECIMAL tax
-        DECIMAL discount
-        DECIMAL total
-        TEXT notes
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-
-    INVOICE_ITEMS {
-        UUID id PK
-        UUID invoice_id FK
-        UUID product_id FK
-        INTEGER quantity
-        DECIMAL unit_price
-        DECIMAL total_price
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-```
-
----
-
-## 🛠️ Tech Stack
-
-### **Backend**
-- **Core:** Java 21, Spring Boot 3.3.x
-- **Security:** Spring Security, JWT (JSON Web Tokens)
-- **Data:** Spring Data JPA, Hibernate, PostgreSQL
-- **Migrations:** Flyway
-- **API Docs:** SpringDoc OpenAPI (Swagger UI)
-- **Build Tool:** Gradle (Groovy)
-
-### **Frontend**
-- **Core:** React 18, TypeScript, Vite
-- **State Management:** Zustand (Client Auth), TanStack React Query v5 (Server State)
-- **Routing:** React Router v6
-- **Styling:** Tailwind CSS, `clsx`, `tailwind-merge`
-- **Forms & Validation:** React Hook Form, Zod
-- **Icons:** Lucide React
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
-- **Java 21** installed.
-- **Node.js** (v18+) and npm.
-- **Docker & Docker Compose** (for running the database easily).
+- **Java 21** (OpenJDK)
+- **Node.js** (v20+) and npm
+- **Docker & Docker Compose**
 
-### 1. Start the Database (Docker)
-The easiest way to run PostgreSQL is via the included `docker-compose.yml` file.
-```bash
-docker-compose up -d postgres
-```
-*Note: This spins up a PostgreSQL 15 instance on port `5432` with user `postgres` and password `toor`.*
+### 🛠️ Development Setup
 
-### 2. Start the Backend (Spring Boot)
-The backend uses Flyway to automatically create the database schema on startup.
-```bash
-# On Windows
-./gradlew.bat bootRun
+1. **Start the Database:**
+   ```bash
+   docker-compose up -d postgres
+   ```
 
-# On Mac/Linux
-./gradlew bootRun
-```
-*The backend runs on **http://localhost:9090** (configurable in `application.yml`).*
+2. **Run the Backend:**
+   ```bash
+   ./gradlew bootRun
+   ```
+   *Backend: http://localhost:9090/api/v1*
 
-### 3. Start the Frontend (React)
-Open a new terminal window and navigate to the frontend directory:
-```bash
-cd inventory-frontend
-npm install
-npm run dev
-```
-*The frontend runs on **http://localhost:5173**.*
+3. **Run the Frontend:**
+   ```bash
+   cd inventory-frontend
+   npm install
+   npm run dev
+   ```
+   *Frontend: http://localhost:5173*
 
 ---
 
-## 🔑 Default Credentials
+## 🏗️ Production Readiness
 
-Upon running the application, you can use the default Admin account to log in:
+### 🛡️ Required Environment Variables
+Never hardcode secrets. Ensure these are set in your production environment:
 
-- **Email:** `admin@inventory.com`
-- **Password:** `Admin@1234`
+| Variable | Description |
+| :--- | :--- |
+| `SPRING_PROFILES_ACTIVE` | Set to `prod` to enable production configurations. |
+| `DB_HOST` / `DB_PORT` | PostgreSQL host and port. |
+| `DB_NAME` / `DB_USER` / `DB_PASSWORD` | Database credentials. |
+| `JWT_SECRET` | A secure, random Base64 string (64+ chars). |
+| `VITE_API_BASE_URL` | Frontend env var pointing to the production API URL. |
 
-*(Additional test accounts can be registered via the Auth API if needed).*
+### 🔒 Security Best Practices
+- **Generate a JWT Secret:** Use `openssl rand -base64 64` to create your `JWT_SECRET`.
+- **Change Default Password:** Log in as `admin@inventory.com` / `Admin@1234` and update the password immediately.
+- **Database Backups:** Schedule nightly backups using `pg_dump`:
+  ```bash
+  pg_dump -U postgres inventory_db > backup_$(date +%Y%m%d).sql
+  ```
+
+### 📦 Deployment (Docker)
+Build and start the entire stack using the multi-stage Docker setup:
+```bash
+docker-compose build
+docker-compose up -d
+```
 
 ---
 
 ## 📚 API Documentation
 
-The backend exposes a fully interactive Swagger UI for testing endpoints and reviewing the OpenAPI specification.
-
-Once the backend is running, visit:
+Once the backend is running (in `local` profile), visit:
 👉 **[http://localhost:9090/api/v1/swagger-ui/index.html](http://localhost:9090/api/v1/swagger-ui/index.html)**
 
----
-
-## 📁 Project Structure
-
-```text
-inventory-billing-system/
-├── src/main/java/.../app/      # Spring Boot Backend Source
-│   ├── common/                 # Global exceptions, responses, configs
-│   ├── module/                 # Domain-driven modules (auth, billing, customer, inventory)
-│   └── security/               # JWT filters and auth providers
-├── src/main/resources/         # Backend Configs & Flyway Migrations
-│   └── db/migration/           # V1 to V10 SQL schema files
-├── inventory-frontend/         # React SPA
-│   ├── src/
-│   │   ├── api/                # Axios instance & API endpoints
-│   │   ├── components/         # Reusable UI (DataTables, Modals, Layout)
-│   │   ├── hooks/              # React Query custom hooks
-│   │   ├── pages/              # Full-screen route components
-│   │   ├── store/              # Zustand global state (Auth)
-│   │   └── types/              # TypeScript interfaces (DTOs)
-│   └── vite.config.ts          # Vite & Proxy configuration
-├── docker-compose.yml          # Local database orchestration
-└── build.gradle                # Backend dependencies
-```
+*(Note: Swagger UI is disabled in the `prod` profile for security).*
 
 ---
 
 <div align="center">
-  <p>Built with ❤️ for efficient inventory and billing management.</p>
+  <p>Built for high-performance inventory and billing management. 🚀</p>
 </div>

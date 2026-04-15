@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+  
+  flyway:
+    enabled: true
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /api/v1
+
+application:
+  security:
+    jwt:
+      # MUST be provided via environment variable in production
+      secret-key: ${JWT_SECRET}
+      expiration: 3600000        # 1 hour for prod access tokens
+      refresh-expiration: 604800000 # 7 days
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+logging:
+  level:
+    root: WARN
+    com.inventory.app: INFO

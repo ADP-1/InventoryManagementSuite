@@ -79,8 +79,8 @@ class AuthControllerIntegrationTest {
     }
 
     @Test
-    void shouldReturn403WhenAccessingProtectedWithoutToken() throws Exception {
+    void shouldReturn401WhenAccessingProtectedWithoutToken() throws Exception {
         mockMvc.perform(get("/inventory/products"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 }
