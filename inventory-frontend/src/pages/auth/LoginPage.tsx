@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2 ml-1">
+              <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2 ml-1">
                 Email Address
               </label>
               <div className="relative group">
@@ -59,8 +59,10 @@ const LoginPage: React.FC = () => {
                   <Mail size={18} />
                 </div>
                 <input
+                  id="email"
                   {...register('email')}
                   type="email"
+                  autoComplete="username"
                   className="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all"
                   placeholder="name@example.com"
                 />
@@ -71,7 +73,7 @@ const LoginPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2 ml-1">
+              <label htmlFor="password" className="block text-sm font-semibold text-slate-700 mb-2 ml-1">
                 Password
               </label>
               <div className="relative group">
@@ -79,8 +81,10 @@ const LoginPage: React.FC = () => {
                   <Lock size={18} />
                 </div>
                 <input
+                  id="password"
                   {...register('password')}
                   type="password"
+                  autoComplete="current-password"
                   className="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all"
                   placeholder="••••••••"
                 />

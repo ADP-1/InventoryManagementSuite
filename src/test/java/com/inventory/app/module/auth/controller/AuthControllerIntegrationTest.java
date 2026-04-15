@@ -63,7 +63,7 @@ class AuthControllerIntegrationTest {
                 .content(objectMapper.writeValueAsString(registerRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.access_token").exists());
+                .andExpect(jsonPath("$.data.accessToken").exists());
 
         // 2. Login
         LoginRequest loginRequest = new LoginRequest();
@@ -75,7 +75,7 @@ class AuthControllerIntegrationTest {
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.access_token").exists());
+                .andExpect(jsonPath("$.data.accessToken").exists());
     }
 
     @Test
