@@ -62,7 +62,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public PagedResponse<ProductResponse> findAll(Pageable pageable) {
-        Page<ProductResponse> page = productRepository.findAllByActiveTrue(pageable)
+        Page<ProductResponse> page = productRepository.findAllActiveWithCategory(pageable)
                 .map(productMapper::toResponse);
         return PagedResponse.of(page);
     }

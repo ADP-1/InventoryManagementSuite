@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Plus, CheckCircle, CreditCard, XCircle, Search, Eye } from 'lucide-react';
+import { Plus, CheckCircle, CreditCard, XCircle, Search, Eye, Download } from 'lucide-react';
+import toast from 'react-hot-toast';
 import PageHeader from '../../components/shared/PageHeader';
 import DataTable from '../../components/shared/DataTable';
 import InvoiceForm from '../../components/forms/InvoiceForm';
 import ConfirmDialog from '../../components/shared/ConfirmDialog';
 import { useInvoices } from '../../hooks/useInvoices';
+import { invoiceApi } from '../../api/invoiceApi';
 import { InvoiceRequest, InvoiceResponse, InvoiceStatus } from '../../types/invoice.types';
 import { useAuthStore } from '../../store/authStore';
 import { cn, formatDate, formatCurrency } from '../../lib/utils';
@@ -34,18 +36,42 @@ const InvoicesPage: React.FC = () => {
   const handleCreate = async (data: InvoiceRequest) => {
     try {
       await createInvoice(data);
+      toast.success('Invoice created successfully');
       setIsModalOpen(false);
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to create invoice');
+    }
+  };
+
+  const handleDownloadPdf = async (id: string, invoiceNumber: string) => {
+    const loadingToast = toast.loading('Generating PDF...');
+    try {
+      await invoiceApi.downloadPdf(id, invoiceNumber);
+      toast.success('Invoice downloaded', { id: loadingToast });
+    } catch (err: any) {
+      toast.error('Failed to download invoice', { id: loadingToast });
+    }
   };
 
   const handleConfirmAction = async () => {
     if (!confirmAction) return;
     try {
-      if (confirmAction.type === 'CONFIRM') await confirmInvoice(confirmAction.id);
-      if (confirmAction.type === 'PAY') await payInvoice(confirmAction.id);
-      if (confirmAction.type === 'CANCEL') await cancelInvoice(confirmAction.id);
+      if (confirmAction.type === 'CONFIRM') {
+        await confirmInvoice(confirmAction.id);
+        toast.success('Invoice confirmed and issued');
+      }
+      if (confirmAction.type === 'PAY') {
+        await payInvoice(confirmAction.id);
+        toast.success('Invoice marked as paid');
+      }
+      if (confirmAction.type === 'CANCEL') {
+        await cancelInvoice(confirmAction.id);
+        toast.success('Invoice cancelled');
+      }
       setConfirmAction(null);
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message || `Failed to ${confirmAction.type.toLowerCase()} invoice`);
+    }
   };
 
   const columns = [
@@ -89,6 +115,14 @@ const InvoicesPage: React.FC = () => {
             title="View Details"
           >
             <Eye size={16} />
+          </button>
+
+          <button 
+            onClick={() => handleDownloadPdf(item.id, item.invoiceNumber)}
+            className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+            title="Download PDF"
+          >
+            <Download size={16} />
           </button>
           
           {item.status === 'DRAFT' && (
@@ -139,13 +173,30 @@ const InvoicesPage: React.FC = () => {
         title="Billing & Invoices" 
         description="Generate and manage customer invoices"
       >
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold shadow-sm transition-all active:scale-95"
-        >
-          <Plus size={18} className="mr-2" />
-          Create Invoice
-        </button>
+        <div className="flex gap-3">
+          <button 
+            onClick={async () => {
+              const loadingToast = toast.loading('Exporting invoices...');
+              try {
+                await invoiceApi.exportCsv({ status: params.status });
+                toast.success('Invoices exported successfully', { id: loadingToast });
+              } catch (err: any) {
+                toast.error('Export failed', { id: loadingToast });
+              }
+            }}
+            className="flex items-center px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-sm shadow-sm transition-all active:scale-95"
+          >
+            <Download size={18} className="mr-2 text-indigo-600" />
+            Export CSV
+          </button>
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold text-sm shadow-lg shadow-indigo-200 transition-all active:scale-95"
+          >
+            <Plus size={18} className="mr-2" />
+            Create Invoice
+          </button>
+        </div>
       </PageHeader>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">

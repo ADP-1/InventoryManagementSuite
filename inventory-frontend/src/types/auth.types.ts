@@ -13,10 +13,10 @@ export interface RegisterRequest {
 }
 
 export interface AuthResponse {
-  access_token: string;
-  refresh_token: string;
-  token_type: string;
+  accessToken: string;
+  refreshToken: string;
+  tokenType: string;
   email: string;
   role: Role;
-  expires_in: number;
+  expiresIn: number;
 }

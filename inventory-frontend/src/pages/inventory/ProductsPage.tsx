@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Search, ArrowUpCircle, ArrowDownCircle, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, ArrowUpCircle, ArrowDownCircle, X, Download } from 'lucide-react';
+import toast from 'react-hot-toast';
 import PageHeader from '../../components/shared/PageHeader';
 import DataTable from '../../components/shared/DataTable';
 import ProductForm from '../../components/forms/ProductForm';
 import ConfirmDialog from '../../components/shared/ConfirmDialog';
 import { useProducts } from '../../hooks/useProducts';
+import { productApi } from '../../api/productApi';
 import { ProductRequest, ProductResponse, StockAdjustmentRequest } from '../../types/product.types';
 import { useAuthStore } from '../../store/authStore';
 import { cn, formatCurrency } from '../../lib/utils';
@@ -40,25 +42,34 @@ const ProductsPage: React.FC = () => {
   const handleCreate = async (data: ProductRequest) => {
     try {
       await createProduct(data);
+      toast.success('Product created successfully');
       setIsModalOpen(false);
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to create product');
+    }
   };
 
   const handleUpdate = async (data: ProductRequest) => {
     if (!editingProduct) return;
     try {
       await updateProduct({ id: editingProduct.id, data });
+      toast.success('Product updated successfully');
       setIsModalOpen(false);
       setEditingProduct(undefined);
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to update product');
+    }
   };
 
   const handleDelete = async () => {
     if (!deletingId) return;
     try {
       await deleteProduct(deletingId);
+      toast.success('Product deleted successfully');
       setDeletingId(null);
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to delete product');
+    }
   };
 
   const handleStockAdjustment = async () => {
@@ -67,13 +78,27 @@ const ProductsPage: React.FC = () => {
     try {
       if (stockModal.type === 'ADD') {
         await addStock({ id: stockModal.id, data });
+        toast.success('Stock added successfully');
       } else {
         await deductStock({ id: stockModal.id, data });
+        toast.success('Stock deducted successfully');
       }
       setStockModal(null);
       setStockAmount(0);
       setStockReason('');
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message || 'Stock adjustment failed');
+    }
+  };
+
+  const handleExportCsv = async () => {
+    const loadingToast = toast.loading('Exporting products...');
+    try {
+      await productApi.exportCsv();
+      toast.success('Products exported successfully', { id: loadingToast });
+    } catch (err: any) {
+      toast.error('Export failed', { id: loadingToast });
+    }
   };
 
   const columns = [
@@ -111,35 +136,35 @@ const ProductsPage: React.FC = () => {
       header: 'Actions',
       accessor: (item: ProductResponse) => (
         <div className="flex items-center space-x-2">
-          <button 
-            onClick={() => setStockModal({ id: item.id, type: 'ADD' })}
-            title="Add Stock"
-            className="p-1.5 text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all"
-          >
-            <ArrowUpCircle size={16} />
-          </button>
-          <button 
-            onClick={() => setStockModal({ id: item.id, type: 'DEDUCT' })}
-            title="Deduct Stock"
-            className="p-1.5 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
-          >
-            <ArrowDownCircle size={16} />
-          </button>
           {!isCashier && (
-            <button 
-              onClick={() => { setEditingProduct(item); setIsModalOpen(true); }}
-              className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
-            >
-              <Edit2 size={16} />
-            </button>
-          )}
-          {!isCashier && (
-            <button 
-              onClick={() => setDeletingId(item.id)}
-              className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
-            >
-              <Trash2 size={16} />
-            </button>
+            <>
+              <button 
+                onClick={() => setStockModal({ id: item.id, type: 'ADD' })}
+                title="Add Stock"
+                className="p-1.5 text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all"
+              >
+                <ArrowUpCircle size={16} />
+              </button>
+              <button 
+                onClick={() => setStockModal({ id: item.id, type: 'DEDUCT' })}
+                title="Deduct Stock"
+                className="p-1.5 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
+              >
+                <ArrowDownCircle size={16} />
+              </button>
+              <button 
+                onClick={() => { setEditingProduct(item); setIsModalOpen(true); }}
+                className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+              >
+                <Edit2 size={16} />
+              </button>
+              <button 
+                onClick={() => setDeletingId(item.id)}
+                className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+              >
+                <Trash2 size={16} />
+              </button>
+            </>
           )}
         </div>
       )
@@ -153,13 +178,22 @@ const ProductsPage: React.FC = () => {
         description="Manage your product catalog and stock levels"
       >
         {!isCashier && (
-          <button 
-            onClick={() => { setEditingProduct(undefined); setIsModalOpen(true); }}
-            className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold shadow-sm transition-all active:scale-95"
-          >
-            <Plus size={18} className="mr-2" />
-            Add Product
-          </button>
+          <div className="flex gap-3">
+            <button 
+              onClick={handleExportCsv}
+              className="flex items-center px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-sm shadow-sm transition-all active:scale-95"
+            >
+              <Download size={18} className="mr-2 text-indigo-600" />
+              Export CSV
+            </button>
+            <button 
+              onClick={() => { setEditingProduct(undefined); setIsModalOpen(true); }}
+              className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold text-sm shadow-lg shadow-indigo-200 transition-all active:scale-95"
+            >
+              <Plus size={18} className="mr-2" />
+              Add Product
+            </button>
+          </div>
         )}
       </PageHeader>
 

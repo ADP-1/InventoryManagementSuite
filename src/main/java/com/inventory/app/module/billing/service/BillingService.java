@@ -211,7 +211,7 @@ public class BillingService {
 
     @Transactional(readOnly = true)
     public PagedResponse<InvoiceResponse> findByCustomer(UUID customerId, Pageable pageable) {
-        Page<InvoiceResponse> page = invoiceRepository.findByCustomerId(customerId, pageable)
+        Page<InvoiceResponse> page = invoiceRepository.findByCustomerIdWithDetails(customerId, pageable)
                 .map(invoiceMapper::toResponse);
         return PagedResponse.of(page);
     }
@@ -226,7 +226,7 @@ public class BillingService {
     // ─── Helper ───────────────────────────────────────────────────────────────
 
     private Invoice getInvoiceById(UUID id) {
-        return invoiceRepository.findById(id)
+        return invoiceRepository.findByIdWithDetails(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Invoice", "id", id));
     }
 }

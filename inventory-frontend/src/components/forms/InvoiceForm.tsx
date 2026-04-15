@@ -59,10 +59,20 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
   const watchedDiscount = watch("discount");
 
   const totals = useMemo(() => {
-    const subtotal = watchedItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-    const taxAmount = (subtotal * watchedTax) / 100;
-    const total = subtotal + taxAmount - watchedDiscount;
-    return { subtotal, taxAmount, total };
+    const subtotal = watchedItems.reduce((acc, item) => {
+      const itemTotal = Number.parseFloat((item.price * item.quantity).toFixed(2));
+      return acc + itemTotal;
+    }, 0);
+    
+    const taxAmount = Number.parseFloat((subtotal * (watchedTax / 100)).toFixed(2));
+    const rawTotal = subtotal + taxAmount - watchedDiscount;
+    const total = Math.max(0, Number.parseFloat(rawTotal.toFixed(2)));
+    
+    return { 
+      subtotal: Number.parseFloat(subtotal.toFixed(2)), 
+      taxAmount, 
+      total 
+    };
   }, [watchedItems, watchedTax, watchedDiscount]);
 
   const handleProductSelect = (index: number, productId: string) => {

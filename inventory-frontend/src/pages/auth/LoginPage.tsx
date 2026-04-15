@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LogIn, Lock, Mail, AlertCircle } from 'lucide-react';
+import { LogIn, Lock, Mail } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useAuth } from '../../hooks/useAuth';
 import { LoginRequest } from '../../types/auth.types';
 
@@ -16,7 +17,6 @@ const LoginPage: React.FC = () => {
   const { login, isLoggingIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -30,11 +30,10 @@ const LoginPage: React.FC = () => {
 
   const onSubmit = async (data: LoginRequest) => {
     try {
-      setError(null);
       await login(data);
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err.message || 'Login failed. Please check your credentials.');
+      toast.error(err.message || 'Login failed. Please check your credentials.');
     }
   };
 
@@ -49,13 +48,6 @@ const LoginPage: React.FC = () => {
             <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
             <p className="text-slate-500 mt-2">Sign in to manage your inventory</p>
           </div>
-
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 flex items-start">
-              <AlertCircle className="w-5 h-5 mr-3 mt-0.5 shrink-0" />
-              <p className="text-sm font-medium">{error}</p>
-            </div>
-          )}
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>

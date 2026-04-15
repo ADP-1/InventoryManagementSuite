@@ -1,23 +1,40 @@
+import React, { Suspense } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import AppLayout from '../components/layout/AppLayout';
-import LoginPage from '../pages/auth/LoginPage';
-import DashboardPage from '../pages/dashboard/DashboardPage';
-import CategoriesPage from '../pages/inventory/CategoriesPage';
-import ProductsPage from '../pages/inventory/ProductsPage';
-import CustomersPage from '../pages/customers/CustomersPage';
-import InvoicesPage from '../pages/billing/InvoicesPage';
+import LoadingSpinner from '../components/shared/LoadingSpinner';
+
+const LoginPage = React.lazy(() => import('../pages/auth/LoginPage'));
+const DashboardPage = React.lazy(() => import('../pages/dashboard/DashboardPage'));
+const CategoriesPage = React.lazy(() => import('../pages/inventory/CategoriesPage'));
+const ProductsPage = React.lazy(() => import('../pages/inventory/ProductsPage'));
+const CustomersPage = React.lazy(() => import('../pages/customers/CustomersPage'));
+const InvoicesPage = React.lazy(() => import('../pages/billing/InvoicesPage'));
+
+const SuspenseLayout = () => (
+  <Suspense fallback={
+    <div className="h-screen w-full flex items-center justify-center bg-slate-50">
+      <LoadingSpinner size={40} />
+    </div>
+  }>
+    <AppLayout />
+  </Suspense>
+);
 
 export const router = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage />,
+    element: (
+      <Suspense fallback={null}>
+        <LoginPage />
+      </Suspense>
+    ),
   },
   {
     path: '/',
     element: (
       <ProtectedRoute>
-        <AppLayout />
+        <SuspenseLayout />
       </ProtectedRoute>
     ),
     children: [

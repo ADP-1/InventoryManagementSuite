@@ -36,6 +36,7 @@ import java.util.UUID;
 public class InvoiceController {
 
     private final BillingService billingService;
+    private final com.inventory.app.module.billing.service.InvoicePdfService invoicePdfService;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'CASHIER')")
@@ -60,6 +61,20 @@ public class InvoiceController {
     public ResponseEntity<ApiResponse<InvoiceResponse>> findById(@PathVariable UUID id) {
         InvoiceResponse response = billingService.findById(id);
         return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/{id}/pdf")
+    @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Download invoice as PDF")
+    public ResponseEntity<byte[]> downloadPdf(@PathVariable UUID id) {
+        byte[] pdfBytes = invoicePdfService.generatePdf(id);
+        InvoiceResponse invoice = billingService.findById(id);
+        String filename = "invoice-" + invoice.getInvoiceNumber() + ".pdf";
+
+        return ResponseEntity.ok()
+                .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, org.springframework.http.MediaType.APPLICATION_PDF_VALUE)
+                .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .body(pdfBytes);
     }
 
     @GetMapping

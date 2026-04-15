@@ -1,4 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
 import { ApiResponse } from '../types/common.types';
 import { AuthResponse } from '../types/auth.types';
@@ -45,6 +46,12 @@ axiosInstance.interceptors.response.use(
     const originalRequest: any = error.config;
     const { clearAuth, refreshToken, setAuth } = useAuthStore.getState();
 
+    // If 403: Forbidden (Role Guard)
+    if (error.response?.status === 403) {
+      toast.error('Access denied: insufficient permissions');
+      return Promise.reject(error);
+    }
+
     // If 401 and not already retrying
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
@@ -69,8 +76,8 @@ axiosInstance.interceptors.response.use(
         if (response.data.success) {
           const newAuthData = response.data.data;
           setAuth(newAuthData);
-          processQueue(null, newAuthData.access_token);
-          originalRequest.headers.Authorization = `Bearer ${newAuthData.access_token}`;
+          processQueue(null, newAuthData.accessToken);
+          originalRequest.headers.Authorization = `Bearer ${newAuthData.accessToken}`;
           return axiosInstance(originalRequest);
         }
       } catch (refreshError) {
@@ -84,7 +91,6 @@ axiosInstance.interceptors.response.use(
     }
 
     const message = (error.response?.data as ApiResponse<any>)?.message || error.message || 'An unexpected error occurred';
-    // To be handled by toast in components, but can be logged here
     return Promise.reject(new Error(message));
   }
 );

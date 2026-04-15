@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Search, FileText } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, FileText, X, Download } from 'lucide-react';
+import toast from 'react-hot-toast';
 import PageHeader from '../../components/shared/PageHeader';
 import DataTable from '../../components/shared/DataTable';
 import CustomerForm from '../../components/forms/CustomerForm';
 import ConfirmDialog from '../../components/shared/ConfirmDialog';
 import { useCustomers } from '../../hooks/useCustomers';
+import { useCustomerInvoices } from '../../hooks/useInvoices';
+import { customerApi } from '../../api/customerApi';
 import { CustomerRequest, CustomerResponse } from '../../types/customer.types';
 import { useAuthStore } from '../../store/authStore';
-import { cn, formatDate } from '../../lib/utils';
+import { cn, formatDate, formatCurrency } from '../../lib/utils';
 
 const CustomersPage: React.FC = () => {
   const [params, setParams] = useState({ page: 0, size: 10, search: '' });
@@ -28,29 +31,49 @@ const CustomersPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<CustomerResponse | undefined>();
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [viewingHistoryId, setViewingHistoryId] = useState<string | null>(null);
 
   const handleCreate = async (data: CustomerRequest) => {
     try {
       await createCustomer(data);
+      toast.success('Customer registered successfully');
       setIsModalOpen(false);
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message || 'Registration failed');
+    }
   };
 
   const handleUpdate = async (data: CustomerRequest) => {
     if (!editingCustomer) return;
     try {
       await updateCustomer({ id: editingCustomer.id, data });
+      toast.success('Customer details updated');
       setIsModalOpen(false);
       setEditingCustomer(undefined);
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message || 'Update failed');
+    }
   };
 
   const handleDelete = async () => {
     if (!deletingId) return;
     try {
       await deleteCustomer(deletingId);
+      toast.success('Customer marked as inactive');
       setDeletingId(null);
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message || 'Deletion failed');
+    }
+  };
+
+  const handleExportCsv = async () => {
+    const loadingToast = toast.loading('Exporting customers...');
+    try {
+      await customerApi.exportCsv();
+      toast.success('Customers exported successfully', { id: loadingToast });
+    } catch (err: any) {
+      toast.error('Export failed', { id: loadingToast });
+    }
   };
 
   const columns = [
@@ -68,8 +91,8 @@ const CustomersPage: React.FC = () => {
       header: 'Status', 
       accessor: (item: CustomerResponse) => (
         <span className={cn(
-          "px-2.5 py-0.5 rounded-full text-xs font-bold",
-          item.active ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
+          "px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider",
+          item.active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
         )}>
           {item.active ? 'ACTIVE' : 'INACTIVE'}
         </span>
@@ -83,21 +106,30 @@ const CustomersPage: React.FC = () => {
       header: 'Actions',
       accessor: (item: CustomerResponse) => (
         <div className="flex items-center space-x-2">
+          <button 
+            onClick={() => setViewingHistoryId(item.id)}
+            className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+            title="Invoice History"
+          >
+            <FileText size={16} />
+          </button>
           {!isCashier && (
-            <button 
-              onClick={() => { setEditingCustomer(item); setIsModalOpen(true); }}
-              className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
-            >
-              <Edit2 size={16} />
-            </button>
-          )}
-          {!isCashier && (
-            <button 
-              onClick={() => setDeletingId(item.id)}
-              className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
-            >
-              <Trash2 size={16} />
-            </button>
+            <>
+              <button 
+                onClick={() => { setEditingCustomer(item); setIsModalOpen(true); }}
+                className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                title="Edit Customer"
+              >
+                <Edit2 size={16} />
+              </button>
+              <button 
+                onClick={() => setDeletingId(item.id)}
+                className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                title="Delete Customer"
+              >
+                <Trash2 size={16} />
+              </button>
+            </>
           )}
         </div>
       )
@@ -110,13 +142,24 @@ const CustomersPage: React.FC = () => {
         title="Customer Directory" 
         description="Manage your customer base and view their history"
       >
-        <button 
-          onClick={() => { setEditingCustomer(undefined); setIsModalOpen(true); }}
-          className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold shadow-sm transition-all active:scale-95"
-        >
-          <Plus size={18} className="mr-2" />
-          Add Customer
-        </button>
+        {!isCashier && (
+          <div className="flex gap-3">
+            <button 
+              onClick={handleExportCsv}
+              className="flex items-center px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-sm shadow-sm transition-all active:scale-95"
+            >
+              <Download size={18} className="mr-2 text-indigo-600" />
+              Export CSV
+            </button>
+            <button 
+              onClick={() => { setEditingCustomer(undefined); setIsModalOpen(true); }}
+              className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold text-sm shadow-lg shadow-indigo-200 transition-all active:scale-95"
+            >
+              <Plus size={18} className="mr-2" />
+              Add Customer
+            </button>
+          </div>
+        )}
       </PageHeader>
 
       <div className="mb-6">
@@ -151,6 +194,13 @@ const CustomersPage: React.FC = () => {
         />
       )}
 
+      {viewingHistoryId && (
+        <CustomerHistoryModal 
+          customerId={viewingHistoryId} 
+          onClose={() => setViewingHistoryId(null)} 
+        />
+      )}
+
       <ConfirmDialog 
         isOpen={!!deletingId}
         onClose={() => setDeletingId(null)}
@@ -159,6 +209,58 @@ const CustomersPage: React.FC = () => {
         message="Are you sure you want to delete this customer? This action cannot be undone and will mark the customer as inactive."
         isLoading={isDeleting}
       />
+    </div>
+  );
+};
+
+interface HistoryModalProps {
+  customerId: string;
+  onClose: () => void;
+}
+
+const CustomerHistoryModal: React.FC<HistoryModalProps> = ({ customerId, onClose }) => {
+  const { data: response, isLoading } = useCustomerInvoices(customerId);
+  const invoices = response?.data.content || [];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+      <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-3xl w-full max-h-[80vh] flex flex-col">
+        <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+          <h3 className="text-xl font-bold text-slate-900">Invoice History</h3>
+          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600">
+            <X size={20} />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-6">
+          {isLoading ? (
+            <div className="py-12 flex justify-center"><div className="w-8 h-8 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin" /></div>
+          ) : invoices.length > 0 ? (
+            <div className="space-y-4">
+              {invoices.map(inv => (
+                <div key={inv.id} className="p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-between">
+                  <div>
+                    <p className="font-bold text-slate-900">{inv.invoiceNumber}</p>
+                    <p className="text-xs text-slate-500">{formatDate(inv.createdAt)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-indigo-600">{formatCurrency(inv.total)}</p>
+                    <span className={cn(
+                      "px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider",
+                      inv.status === 'PAID' ? "bg-green-100 text-green-700" :
+                      inv.status === 'ISSUED' ? "bg-blue-100 text-blue-700" :
+                      inv.status === 'CANCELLED' ? "bg-red-100 text-red-700" : "bg-slate-100 text-slate-700"
+                    )}>
+                      {inv.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="py-12 text-center text-slate-400">No invoices found for this customer.</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

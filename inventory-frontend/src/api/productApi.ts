@@ -38,4 +38,17 @@ export const productApi = {
     const response = await axiosInstance.post<ApiResponse<ProductResponse>>(`/inventory/products/${id}/stock/deduct`, data);
     return response.data;
   },
+  exportCsv: async () => {
+    const response = await axiosInstance.get('/export/products.csv', {
+      responseType: 'blob',
+    });
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'products.csv');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  },
 };

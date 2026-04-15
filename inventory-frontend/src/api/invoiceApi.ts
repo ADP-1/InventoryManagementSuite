@@ -33,4 +33,31 @@ export const invoiceApi = {
     const response = await axiosInstance.get<ApiResponse<PagedResponse<InvoiceResponse>>>(`/billing/invoices/customer/${customerId}`, { params });
     return response.data;
   },
+  downloadPdf: async (id: string, invoiceNumber: string) => {
+    const response = await axiosInstance.get(`/billing/invoices/${id}/pdf`, {
+      responseType: 'blob',
+    });
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `invoice-${invoiceNumber}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  },
+  exportCsv: async (params?: { status?: InvoiceStatus; from?: string; to?: string }) => {
+    const response = await axiosInstance.get('/export/invoices.csv', {
+      params,
+      responseType: 'blob',
+    });
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'invoices.csv');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  },
 };

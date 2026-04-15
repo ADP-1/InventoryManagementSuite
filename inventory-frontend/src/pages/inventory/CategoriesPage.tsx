@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 import PageHeader from '../../components/shared/PageHeader';
 import DataTable from '../../components/shared/DataTable';
 import CategoryForm from '../../components/forms/CategoryForm';
@@ -32,9 +33,10 @@ const CategoriesPage: React.FC = () => {
   const handleCreate = async (data: CategoryRequest) => {
     try {
       await createCategory(data);
+      toast.success('Category created successfully');
       setIsModalOpen(false);
-    } catch (err) {
-      // Handled by component inside form
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to create category');
     }
   };
 
@@ -42,10 +44,11 @@ const CategoriesPage: React.FC = () => {
     if (!editingCategory) return;
     try {
       await updateCategory({ id: editingCategory.id, data });
+      toast.success('Category updated successfully');
       setIsModalOpen(false);
       setEditingCategory(undefined);
-    } catch (err) {
-      // Handled by component inside form
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to update category');
     }
   };
 
@@ -53,9 +56,10 @@ const CategoriesPage: React.FC = () => {
     if (!deletingId) return;
     try {
       await deleteCategory(deletingId);
+      toast.success('Category deleted successfully');
       setDeletingId(null);
-    } catch (err) {
-      // Error would be shown in toast usually
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to delete category');
     }
   };
 

@@ -18,6 +18,8 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
 
     boolean existsByEmail(String email);
 
+    long countByActiveTrue();
+
     Page<Customer> findAllByActiveTrue(Pageable pageable);
 
     @Query("SELECT c FROM Customer c WHERE c.active = true AND " +
@@ -28,6 +30,6 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
 
     // Check for active invoices before soft delete
     @Query("SELECT COUNT(i) FROM Invoice i WHERE i.customer.id = :customerId " +
-           "AND i.status IN ('DRAFT', 'ISSUED')")
+           "AND i.status IN (com.inventory.app.module.billing.entity.InvoiceStatus.DRAFT, com.inventory.app.module.billing.entity.InvoiceStatus.ISSUED)")
     long countActiveInvoicesByCustomerId(@Param("customerId") UUID customerId);
 }
