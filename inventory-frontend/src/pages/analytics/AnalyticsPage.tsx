@@ -3,7 +3,7 @@ import PageHeader from '../../components/shared/PageHeader';
 import SummaryCards from './components/SummaryCards';
 import RevenueTrendChart from './components/RevenueTrendChart';
 import InvoiceStatusChart from './components/InvoiceStatusChart';
-import MonthlyRevenueChart from './components/MonthlyRevenueChart';
+import DailyRevenueBarChart from './components/DailyRevenueBarChart';
 import TopProductsChart from './components/TopProductsChart';
 import RecentInvoicesTable from './components/RecentInvoicesTable';
 import { 
@@ -11,13 +11,11 @@ import {
   useRevenueTrend, 
   useInvoiceStatusBreakdown, 
   useTopProducts, 
-  useMonthlyRevenue, 
   useRecentInvoices 
 } from '../../hooks/useAnalytics';
 import { Calendar, RefreshCw, AlertCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuthStore } from '../../store/authStore';
-import { Navigate } from 'react-router-dom';
 
 const AnalyticsPage: React.FC = () => {
   const [days, setDays] = useState(30);
@@ -49,7 +47,6 @@ const AnalyticsPage: React.FC = () => {
   const trendQuery = useRevenueTrend(days);
   const statusQuery = useInvoiceStatusBreakdown();
   const topProductsQuery = useTopProducts(5);
-  const monthlyQuery = useMonthlyRevenue(6);
   const recentInvoicesQuery = useRecentInvoices(5);
 
   const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
@@ -125,12 +122,12 @@ const AnalyticsPage: React.FC = () => {
           )}
         </div>
         <div className="lg:col-span-2">
-          {monthlyQuery.isError ? (
-            <ErrorState onRetry={() => monthlyQuery.refetch()} />
+          {trendQuery.isError ? (
+            <ErrorState onRetry={() => trendQuery.refetch()} />
           ) : (
-            <MonthlyRevenueChart 
-              data={monthlyQuery.data?.data} 
-              isLoading={monthlyQuery.isLoading} 
+            <DailyRevenueBarChart 
+              data={trendQuery.data?.data} 
+              isLoading={trendQuery.isLoading} 
             />
           )}
         </div>
