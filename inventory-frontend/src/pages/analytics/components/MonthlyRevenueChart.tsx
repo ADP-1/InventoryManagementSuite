@@ -67,13 +67,13 @@ const MonthlyRevenueChart: React.FC<MonthlyRevenueChartProps> = ({ data, isLoadi
             />
             <Bar 
               dataKey="revenue" 
-              fill="#14b8a6" 
+              fill="#f97316" 
               radius={[4, 4, 0, 0]} 
               barSize={12}
             />
             <Bar 
               dataKey="prevYearRevenue" 
-              fill="#6366f1" 
+              fill="#3b82f6" 
               fillOpacity={0.4} 
               radius={[4, 4, 0, 0]} 
               barSize={12}

@@ -65,7 +65,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             className={cn(
               "px-4 py-2 text-sm font-semibold text-white rounded-lg shadow-sm transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center",
               type === 'danger' ? "bg-red-600 hover:bg-red-700" : 
-              type === 'warning' ? "bg-amber-600 hover:bg-amber-700" : "bg-indigo-600 hover:bg-indigo-700"
+              type === 'warning' ? "bg-amber-600 hover:bg-amber-700" : "bg-orange-500 hover:bg-orange-600"
             )}
           >
             {isLoading ? (

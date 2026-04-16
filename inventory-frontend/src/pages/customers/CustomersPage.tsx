@@ -108,7 +108,7 @@ const CustomersPage: React.FC = () => {
         <div className="flex items-center space-x-2">
           <button 
             onClick={() => setViewingHistoryId(item.id)}
-            className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+            className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all"
             title="Invoice History"
           >
             <FileText size={16} />
@@ -117,7 +117,7 @@ const CustomersPage: React.FC = () => {
             <>
               <button 
                 onClick={() => { setEditingCustomer(item); setIsModalOpen(true); }}
-                className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all"
                 title="Edit Customer"
               >
                 <Edit2 size={16} />
@@ -148,12 +148,12 @@ const CustomersPage: React.FC = () => {
               onClick={handleExportCsv}
               className="flex items-center px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-sm shadow-sm transition-all active:scale-95"
             >
-              <Download size={18} className="mr-2 text-indigo-600" />
+              <Download size={18} className="mr-2 text-orange-500" />
               Export CSV
             </button>
             <button 
               onClick={() => { setEditingCustomer(undefined); setIsModalOpen(true); }}
-              className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold text-sm shadow-lg shadow-indigo-200 transition-all active:scale-95"
+              className="flex items-center px-4 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 font-bold text-sm shadow-lg shadow-orange-200 transition-all active:scale-95"
             >
               <Plus size={18} className="mr-2" />
               Add Customer
@@ -170,7 +170,7 @@ const CustomersPage: React.FC = () => {
           <input
             type="text"
             placeholder="Search by name, email or phone..."
-            className="block w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+            className="block w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
             onChange={(e) => setParams(p => ({ ...p, search: e.target.value, page: 0 }))}
           />
         </div>
@@ -233,7 +233,7 @@ const CustomerHistoryModal: React.FC<HistoryModalProps> = ({ customerId, onClose
         </div>
         <div className="flex-1 overflow-y-auto p-6">
           {isLoading ? (
-            <div className="py-12 flex justify-center"><div className="w-8 h-8 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin" /></div>
+            <div className="py-12 flex justify-center"><div className="w-8 h-8 border-4 border-orange-500/20 border-t-orange-500 rounded-full animate-spin" /></div>
           ) : invoices.length > 0 ? (
             <div className="space-y-4">
               {invoices.map(inv => (
@@ -243,7 +243,7 @@ const CustomerHistoryModal: React.FC<HistoryModalProps> = ({ customerId, onClose
                     <p className="text-xs text-slate-500">{formatDate(inv.createdAt)}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-indigo-600">{formatCurrency(inv.total)}</p>
+                    <p className="font-bold text-orange-500">{formatCurrency(inv.total)}</p>
                     <span className={cn(
                       "px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider",
                       inv.status === 'PAID' ? "bg-green-100 text-green-700" :

@@ -12,7 +12,7 @@ interface RecentInvoicesTableProps {
 
 const statusColors = {
   DRAFT: 'bg-slate-100 text-slate-700',
-  ISSUED: 'bg-indigo-100 text-indigo-700',
+  ISSUED: 'bg-orange-100 text-orange-600',
   PAID: 'bg-emerald-100 text-emerald-700',
   CANCELLED: 'bg-rose-100 text-rose-700',
 };
@@ -50,7 +50,7 @@ const RecentInvoicesTable: React.FC<RecentInvoicesTableProps> = ({ data, isLoadi
                 onClick={() => navigate('/billing/invoices')}
               >
                 <td className="px-6 py-4">
-                  <div className="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                  <div className="text-sm font-bold text-slate-900 group-hover:text-orange-500 transition-colors">
                     {invoice.invoiceNumber}
                   </div>
                   <div className="text-[11px] text-slate-400 font-medium">{formatDate(invoice.createdAt)}</div>
@@ -84,7 +84,7 @@ const RecentInvoicesTable: React.FC<RecentInvoicesTableProps> = ({ data, isLoadi
 
       <Link 
         to="/billing/invoices" 
-        className="p-4 border-t border-slate-100 text-center text-indigo-600 text-sm font-bold hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5"
+        className="p-4 border-t border-slate-100 text-center text-orange-500 text-sm font-bold hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5"
       >
         View all invoices <ArrowRight size={14} />
       </Link>

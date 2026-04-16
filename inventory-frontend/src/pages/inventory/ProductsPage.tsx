@@ -154,7 +154,7 @@ const ProductsPage: React.FC = () => {
               </button>
               <button 
                 onClick={() => { setEditingProduct(item); setIsModalOpen(true); }}
-                className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all"
               >
                 <Edit2 size={16} />
               </button>
@@ -183,12 +183,12 @@ const ProductsPage: React.FC = () => {
               onClick={handleExportCsv}
               className="flex items-center px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-sm shadow-sm transition-all active:scale-95"
             >
-              <Download size={18} className="mr-2 text-indigo-600" />
+              <Download size={18} className="mr-2 text-orange-500" />
               Export CSV
             </button>
             <button 
               onClick={() => { setEditingProduct(undefined); setIsModalOpen(true); }}
-              className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold text-sm shadow-lg shadow-indigo-200 transition-all active:scale-95"
+              className="flex items-center px-4 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 font-bold text-sm shadow-lg shadow-orange-200 transition-all active:scale-95"
             >
               <Plus size={18} className="mr-2" />
               Add Product
@@ -205,7 +205,7 @@ const ProductsPage: React.FC = () => {
           <input
             type="text"
             placeholder="Search by name, SKU or price..."
-            className="block w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+            className="block w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
             onChange={(e) => setParams(p => ({ ...p, search: e.target.value, page: 0 }))}
           />
         </div>
@@ -245,7 +245,7 @@ const ProductsPage: React.FC = () => {
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Quantity</label>
                 <input
                   type="number"
-                  className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:border-indigo-600"
+                  className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:border-orange-500"
                   value={stockAmount}
                   onChange={(e) => setStockAmount(Number(e.target.value))}
                 />
@@ -254,7 +254,7 @@ const ProductsPage: React.FC = () => {
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Reason</label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:border-indigo-600"
+                  className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:border-orange-500"
                   placeholder="e.g. New shipment, Manual adjustment"
                   value={stockReason}
                   onChange={(e) => setStockReason(e.target.value)}

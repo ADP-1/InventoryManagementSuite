@@ -114,11 +114,11 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
                 <Search size={14} className="mr-2" />
                 Customer Details
               </h4>
-              <div className="p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100">
+              <div className="p-4 bg-orange-50/50 rounded-2xl border border-orange-100">
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">Select Customer</label>
                 <select
                   {...register('customerId')}
-                  className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+                  className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 >
                   <option value="">Choose a customer...</option>
                   {customers?.content.map(c => <option key={c.id} value={c.id}>{c.name} ({c.email})</option>)}
@@ -138,7 +138,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
                   <input
                     type="number"
                     {...register('taxPercent')}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                   />
                 </div>
                 <div>
@@ -146,7 +146,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
                   <input
                     type="number"
                     {...register('discount')}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                   />
                 </div>
               </div>
@@ -159,7 +159,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
               <button
                 type="button"
                 onClick={() => append({ productId: '', quantity: 1, price: 0, name: '' })}
-                className="flex items-center px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 text-xs font-bold transition-all active:scale-95"
+                className="flex items-center px-3 py-1.5 bg-orange-50 text-orange-500 rounded-lg hover:bg-orange-100 text-xs font-bold transition-all active:scale-95"
               >
                 <Plus size={14} className="mr-1.5" />
                 Add Item
@@ -184,7 +184,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
                         <select
                           {...register(`items.${index}.productId`)}
                           onChange={(e) => handleProductSelect(index, e.target.value)}
-                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 outline-none text-sm transition-all"
+                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 outline-none text-sm transition-all"
                         >
                           <option value="">Select product...</option>
                           {products?.content.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -194,7 +194,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
                         <input
                           type="number"
                           {...register(`items.${index}.quantity`)}
-                          className="w-20 px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 outline-none text-sm transition-all"
+                          className="w-20 px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 outline-none text-sm transition-all"
                         />
                       </td>
                       <td className="px-6 py-4 font-medium text-slate-600 text-sm">
@@ -231,7 +231,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
             <textarea
               {...register('notes')}
               rows={2}
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-600/20 outline-none text-sm resize-none transition-all"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-orange-500/20 outline-none text-sm resize-none transition-all"
               placeholder="Add terms, bank details, or internal notes..."
             />
           </div>
@@ -245,7 +245,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
             </div>
             <div>
               <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Tax ({watchedTax}%)</p>
-              <p className="text-lg font-medium text-indigo-400">+{formatCurrency(totals.taxAmount)}</p>
+              <p className="text-lg font-medium text-orange-400">+{formatCurrency(totals.taxAmount)}</p>
             </div>
             <div>
               <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Discount</p>
@@ -261,7 +261,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
             <button
               onClick={handleSubmit(onFormSubmit)}
               disabled={isSubmitting || fields.length === 0}
-              className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl shadow-lg shadow-indigo-900/50 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+              className="px-8 py-4 bg-orange-500 hover:bg-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-orange-900/50 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
             >
               {isSubmitting && <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3" />}
               Generate Invoice

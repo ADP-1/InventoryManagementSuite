@@ -42,7 +42,7 @@ const LoginPage: React.FC = () => {
       <div className="max-w-md w-full">
         <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
           <div className="text-center mb-10">
-            <div className="w-16 h-16 bg-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-200 rotate-3">
+            <div className="w-16 h-16 bg-orange-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-200 rotate-3">
               <LogIn size={32} />
             </div>
             <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
@@ -55,7 +55,7 @@ const LoginPage: React.FC = () => {
                 Email Address
               </label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-orange-500 transition-colors">
                   <Mail size={18} />
                 </div>
                 <input
@@ -63,7 +63,7 @@ const LoginPage: React.FC = () => {
                   {...register('email')}
                   type="email"
                   autoComplete="username"
-                  className="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all"
+                  className="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
                   placeholder="name@example.com"
                 />
               </div>
@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
                 Password
               </label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-orange-500 transition-colors">
                   <Lock size={18} />
                 </div>
                 <input
@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
                   {...register('password')}
                   type="password"
                   autoComplete="current-password"
-                  className="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-all"
+                  className="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
                   placeholder="••••••••"
                 />
               </div>
@@ -97,7 +97,7 @@ const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={isLoggingIn}
-              className="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
+              className="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
             >
               {isLoggingIn ? (
                 <>

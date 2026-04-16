@@ -40,7 +40,7 @@ const LowStockTable: React.FC<LowStockTableProps> = ({ data, isLoading }) => {
         </div>
         <Link 
           to="/inventory/products?filter=lowstock" 
-          className="text-indigo-600 text-sm font-bold hover:underline inline-flex items-center"
+          className="text-orange-500 text-sm font-bold hover:underline inline-flex items-center"
         >
           View All <ExternalLink size={14} className="ml-1" />
         </Link>
@@ -77,7 +77,7 @@ const LowStockTable: React.FC<LowStockTableProps> = ({ data, isLoading }) => {
                   <td className="px-6 py-4 text-right">
                     <button 
                       onClick={() => navigate('/inventory/products')}
-                      className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                      className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all"
                     >
                       <ExternalLink size={16} />
                     </button>

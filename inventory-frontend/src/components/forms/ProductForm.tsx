@@ -63,7 +63,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
               </label>
               <input
                 {...register('name')}
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="e.g. Wireless Mouse"
               />
               {errors.name && <p className="mt-1 text-xs font-medium text-red-600">{errors.name.message}</p>}
@@ -75,7 +75,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
               </label>
               <input
                 {...register('sku')}
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="e.g. WRL-MSE-001"
               />
               {errors.sku && <p className="mt-1 text-xs font-medium text-red-600">{errors.sku.message}</p>}
@@ -88,7 +88,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
             </label>
             <select
               {...register('categoryId')}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all bg-white"
+              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all bg-white"
             >
               <option value="">Select a category</option>
               {categories?.content.map(cat => (
@@ -107,7 +107,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
                 {...register('price')}
                 type="number"
                 step="0.01"
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="0.00"
               />
               {errors.price && <p className="mt-1 text-xs font-medium text-red-600">{errors.price.message}</p>}
@@ -120,7 +120,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
               <input
                 {...register('quantity')}
                 type="number"
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="0"
                 disabled={!!initialData}
               />
@@ -136,7 +136,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
             <textarea
               {...register('description')}
               rows={3}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all resize-none"
+              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all resize-none"
               placeholder="Provide a detailed product description"
             />
             {errors.description && <p className="mt-1 text-xs font-medium text-red-600">{errors.description.message}</p>}
@@ -153,7 +153,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 shadow-sm transition-all active:scale-95 disabled:opacity-50 flex items-center"
+              className="px-4 py-2 text-sm font-semibold text-white bg-orange-500 rounded-lg hover:bg-orange-600 shadow-sm transition-all active:scale-95 disabled:opacity-50 flex items-center"
             >
               {isSubmitting && (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />

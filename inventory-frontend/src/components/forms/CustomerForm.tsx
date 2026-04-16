@@ -52,7 +52,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ initialData, onSubmit, onCl
               <label className="block text-sm font-semibold text-slate-700 mb-1">Full Name</label>
               <input
                 {...register('name')}
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="John Doe"
               />
               {errors.name && <p className="mt-1 text-xs font-medium text-red-600">{errors.name.message}</p>}
@@ -61,7 +61,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ initialData, onSubmit, onCl
               <label className="block text-sm font-semibold text-slate-700 mb-1">Email</label>
               <input
                 {...register('email')}
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="john@example.com"
               />
               {errors.email && <p className="mt-1 text-xs font-medium text-red-600">{errors.email.message}</p>}
@@ -72,7 +72,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ initialData, onSubmit, onCl
             <label className="block text-sm font-semibold text-slate-700 mb-1">Phone Number</label>
             <input
               {...register('phone')}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
               placeholder="+91 98765 43210"
             />
           </div>
@@ -82,7 +82,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ initialData, onSubmit, onCl
             <textarea
               {...register('address')}
               rows={3}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all resize-none"
+              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all resize-none"
               placeholder="Full mailing address"
             />
           </div>
@@ -98,7 +98,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ initialData, onSubmit, onCl
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 shadow-sm transition-all active:scale-95 disabled:opacity-50 flex items-center"
+              className="px-4 py-2 text-sm font-semibold text-white bg-orange-500 rounded-lg hover:bg-orange-600 shadow-sm transition-all active:scale-95 disabled:opacity-50 flex items-center"
             >
               {isSubmitting && <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />}
               {initialData ? 'Update Customer' : 'Register Customer'}

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Search, Package, User, FileText, Loader2, X, Bell, Settings } from 'lucide-react';
+import { Search, Package, User, FileText, Loader2, X, ChevronDown, LogOut, UserCircle } from 'lucide-react';
 import { useGlobalSearch, SearchResult } from '../../hooks/useGlobalSearch';
 import { cn } from '../../lib/utils';
 import { useAuthStore } from '../../store/authStore';
@@ -8,10 +8,12 @@ import { useAuthStore } from '../../store/authStore';
 const Topbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { email } = useAuthStore();
+  const { email, clearAuth } = useAuthStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   
   const { results, isLoading } = useGlobalSearch(searchQuery);
 
@@ -19,6 +21,9 @@ const Topbar: React.FC = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsSearchFocused(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -114,14 +119,56 @@ const Topbar: React.FC = () => {
             )}
           </div>
 
-          <div className="flex items-center gap-2">
-            <button className="p-3 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-orange-500 hover:bg-orange-50 transition-all relative">
-              <Bell size={20} />
-              <span className="absolute top-3 right-3 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+          {/* User Menu Flyout */}
+          <div className="relative" ref={userMenuRef}>
+            <button 
+              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              className="flex items-center gap-3 p-1.5 pr-3 rounded-2xl bg-white border border-slate-100 hover:bg-slate-50 transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-orange-100 border border-orange-200 flex items-center justify-center overflow-hidden shrink-0 transition-transform group-hover:scale-95">
+                <img 
+                  src={`https://ui-avatars.com/api/?name=${email}&background=6366f1&color=fff`} 
+                  alt="User" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="hidden md:block text-left">
+                <p className="text-xs font-bold text-slate-900 truncate">
+                  {email?.split('@')[0] || 'User'}
+                </p>
+                <p className="text-[10px] font-medium text-slate-400 truncate w-24">
+                  {email}
+                </p>
+              </div>
+              <ChevronDown size={14} className={cn("text-slate-400 transition-transform duration-200", isUserMenuOpen && "rotate-180")} />
             </button>
-            <button className="p-3 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-orange-500 hover:bg-orange-50 transition-all">
-              <Settings size={20} />
-            </button>
+
+            {/* Dropdown Menu */}
+            {isUserMenuOpen && (
+              <div className="absolute top-full right-0 mt-3 w-56 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden">
+                <div className="px-4 py-3 border-b border-slate-50 mb-1">
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Account</p>
+                </div>
+                
+                <button 
+                  onClick={() => { setIsUserMenuOpen(false); navigate('/login'); }}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-orange-600 transition-colors"
+                >
+                  <UserCircle size={18} />
+                  Switch Account
+                </button>
+                
+                <div className="h-px bg-slate-50 my-1 mx-2" />
+                
+                <button 
+                  onClick={() => { setIsUserMenuOpen(false); clearAuth(); }}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-rose-500 hover:bg-rose-50 transition-colors"
+                >
+                  <LogOut size={18} />
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

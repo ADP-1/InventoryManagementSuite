@@ -49,7 +49,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData, onSubmit, onCl
             </label>
             <input
               {...register('name')}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
               placeholder="e.g. Electronics"
             />
             {errors.name && <p className="mt-1 text-xs font-medium text-red-600">{errors.name.message}</p>}
@@ -62,7 +62,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData, onSubmit, onCl
             <textarea
               {...register('description')}
               rows={3}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all resize-none"
+              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all resize-none"
               placeholder="Provide a brief description of this category"
             />
             {errors.description && <p className="mt-1 text-xs font-medium text-red-600">{errors.description.message}</p>}
@@ -79,7 +79,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData, onSubmit, onCl
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 shadow-sm transition-all active:scale-95 disabled:opacity-50 flex items-center"
+              className="px-4 py-2 text-sm font-semibold text-white bg-orange-500 rounded-lg hover:bg-orange-600 shadow-sm transition-all active:scale-95 disabled:opacity-50 flex items-center"
             >
               {isSubmitting && (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />

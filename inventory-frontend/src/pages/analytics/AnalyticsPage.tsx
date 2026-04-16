@@ -6,14 +6,12 @@ import InvoiceStatusChart from './components/InvoiceStatusChart';
 import MonthlyRevenueChart from './components/MonthlyRevenueChart';
 import TopProductsChart from './components/TopProductsChart';
 import RecentInvoicesTable from './components/RecentInvoicesTable';
-import LowStockTable from './components/LowStockTable';
 import { 
   useSummaryStats, 
   useRevenueTrend, 
   useInvoiceStatusBreakdown, 
   useTopProducts, 
   useMonthlyRevenue, 
-  useLowStock, 
   useRecentInvoices 
 } from '../../hooks/useAnalytics';
 import { Calendar, RefreshCw, AlertCircle } from 'lucide-react';
@@ -52,7 +50,6 @@ const AnalyticsPage: React.FC = () => {
   const statusQuery = useInvoiceStatusBreakdown();
   const topProductsQuery = useTopProducts(5);
   const monthlyQuery = useMonthlyRevenue(6);
-  const lowStockQuery = useLowStock(10);
   const recentInvoicesQuery = useRecentInvoices(5);
 
   const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
@@ -87,8 +84,8 @@ const AnalyticsPage: React.FC = () => {
               className={cn(
                 "px-4 py-1.5 text-sm font-bold rounded-lg transition-all",
                 days === option 
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-100" 
-                  : "text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+                  ? "bg-orange-500 text-white shadow-md shadow-orange-100" 
+                  : "text-slate-500 hover:text-orange-600 hover:bg-orange-50"
               )}
             >
               {option} Days
@@ -158,15 +155,6 @@ const AnalyticsPage: React.FC = () => {
           />
         )}
       </div>
-
-      {lowStockQuery.isError ? (
-        <ErrorState onRetry={() => lowStockQuery.refetch()} />
-      ) : (
-        <LowStockTable 
-          data={lowStockQuery.data?.data} 
-          isLoading={lowStockQuery.isLoading} 
-        />
-      )}
     </div>
   );
 };

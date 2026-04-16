@@ -8,8 +8,8 @@ interface InvoiceStatusChartProps {
 }
 
 const COLORS = {
-  PAID: '#10b981',      // emerald-500
-  ISSUED: '#6366f1',    // indigo-500
+  PAID: '#f97316',      // orange-500
+  ISSUED: '#3b82f6',    // blue-500
   CANCELLED: '#ef4444', // red-500
   DRAFT: '#94a3b8',     // slate-400
 };

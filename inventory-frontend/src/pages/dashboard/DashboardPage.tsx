@@ -15,6 +15,7 @@ import { useDashboardStats } from '../../hooks/useDashboard';
 import { useProducts } from '../../hooks/useProducts';
 import { cn } from '../../lib/utils';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
+import StatCard from '../../components/shared/StatCard';
 
 const MONTHLY_TARGET = 100000;
 
@@ -146,55 +147,31 @@ const DashboardPage: React.FC = () => {
 
       {/* Section 2 - KPI Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* KPI 1 - Total Products */}
-        <div className="bg-white rounded-2xl shadow-sm p-5 flex items-center gap-4 border border-slate-100 transition-all hover:shadow-md">
-          <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
-            <Package size={24} />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-slate-900 leading-none mb-1">{stats?.totalProducts || 0}</p>
-            <p className="text-sm text-slate-500 font-medium">Total Products</p>
-            <p className="text-[10px] text-slate-400 mt-1">Update: {new Date().toLocaleDateString()}</p>
-          </div>
-        </div>
-
-        {/* KPI 2 - Total Customers */}
-        <div className="bg-white rounded-2xl shadow-sm p-5 flex items-center gap-4 border border-slate-100 transition-all hover:shadow-md">
-          <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
-            <Users size={24} />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-slate-900 leading-none mb-1">{stats?.totalCustomers || 0}</p>
-            <p className="text-sm text-slate-500 font-medium">Total Customers</p>
-          </div>
-        </div>
-
-        {/* KPI 3 - Pending Invoices */}
-        <div className="bg-white rounded-2xl shadow-sm p-5 flex items-center gap-4 border border-slate-100 transition-all hover:shadow-md">
-          <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 shrink-0">
-            <FileText size={24} />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-slate-900 leading-none mb-1">{stats?.pendingInvoices || 0}</p>
-            <p className="text-sm text-slate-500 font-medium">Pending Invoices</p>
-          </div>
-        </div>
-
-        {/* KPI 4 - Low Stock Alerts */}
-        <div className="bg-white rounded-2xl shadow-sm p-5 flex items-center gap-4 border border-slate-100 transition-all hover:shadow-md">
-          <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 shrink-0">
-            <AlertTriangle size={24} />
-          </div>
-          <div>
-            <p className={cn(
-              "text-2xl font-bold leading-none mb-1",
-              (stats?.lowStockProducts || 0) > 0 ? "text-red-600" : "text-slate-900"
-            )}>
-              {stats?.lowStockProducts || 0}
-            </p>
-            <p className="text-sm text-slate-500 font-medium">Low Stock Alerts</p>
-          </div>
-        </div>
+        <StatCard
+          title="Total Products"
+          value={stats?.totalProducts || 0}
+          icon={Package}
+          iconColor="bg-orange-100 text-orange-600"
+          subtitle={`Update: ${new Date().toLocaleDateString()}`}
+        />
+        <StatCard
+          title="Total Customers"
+          value={stats?.totalCustomers || 0}
+          icon={Users}
+          iconColor="bg-blue-100 text-blue-600"
+        />
+        <StatCard
+          title="Pending Invoices"
+          value={stats?.pendingInvoices || 0}
+          icon={FileText}
+          iconColor="bg-amber-100 text-amber-600"
+        />
+        <StatCard
+          title="Low Stock Alerts"
+          value={stats?.lowStockProducts || 0}
+          icon={AlertTriangle}
+          iconColor="bg-red-100 text-red-600"
+        />
       </div>
 
       {/* Layout grid for Section 3 & 4 */}

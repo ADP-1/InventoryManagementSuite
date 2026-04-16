@@ -40,26 +40,6 @@ const Sidebar: React.FC = () => {
         </div>
       </div>
 
-      {/* User Card */}
-      <div className="px-6 mb-8">
-        <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-slate-100 transition-colors cursor-pointer group">
-          <div className="w-10 h-10 rounded-xl bg-indigo-100 border border-indigo-200 flex items-center justify-center overflow-hidden">
-            <img 
-              src={`https://ui-avatars.com/api/?name=${email}&background=6366f1&color=fff`} 
-              alt="User" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold text-slate-900 truncate">
-              {email?.split('@')[0] || 'User'}
-            </p>
-            <p className="text-[10px] font-medium text-slate-400 truncate">{email}</p>
-          </div>
-          <ChevronDown size={14} className="text-slate-400 group-hover:text-slate-600" />
-        </div>
-      </div>
-
       {/* Main Menu */}
       <div className="px-4 mb-4">
         <p className="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Main Menu</p>
@@ -101,10 +81,20 @@ const Sidebar: React.FC = () => {
             <MessageSquare size={20} className="mr-3 group-hover:text-orange-500" />
             <span className="text-sm font-bold">Report</span>
           </a>
-          <a href="#" className="flex items-center px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-all group">
+          <NavLink 
+            to="/settings" 
+            className={({ isActive }) =>
+              cn(
+                'flex items-center px-4 py-3 rounded-xl transition-all duration-200 group',
+                isActive 
+                  ? 'bg-orange-50 text-orange-600 shadow-sm shadow-orange-100/50' 
+                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+              )
+            }
+          >
             <Settings size={20} className="mr-3 group-hover:text-orange-500" />
             <span className="text-sm font-bold">Settings</span>
-          </a>
+          </NavLink>
         </nav>
       </div>
 

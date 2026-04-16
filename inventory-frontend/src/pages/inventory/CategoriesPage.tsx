@@ -88,7 +88,7 @@ const CategoriesPage: React.FC = () => {
           {!isCashier && (
             <button 
               onClick={() => { setEditingCategory(item); setIsModalOpen(true); }}
-              className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+              className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all"
             >
               <Edit2 size={16} />
             </button>
@@ -116,7 +116,7 @@ const CategoriesPage: React.FC = () => {
         {!isCashier && (
           <button 
             onClick={() => { setEditingCategory(undefined); setIsModalOpen(true); }}
-            className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold shadow-sm transition-all active:scale-95"
+            className="flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-semibold shadow-sm transition-all active:scale-95"
           >
             <Plus size={18} className="mr-2" />
             Add Category

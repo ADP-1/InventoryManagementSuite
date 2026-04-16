@@ -111,7 +111,7 @@ const InvoicesPage: React.FC = () => {
         <div className="flex items-center space-x-2">
           <button 
             onClick={() => setSelectedInvoice(item)}
-            className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+            className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all"
             title="View Details"
           >
             <Eye size={16} />
@@ -119,7 +119,7 @@ const InvoicesPage: React.FC = () => {
 
           <button 
             onClick={() => handleDownloadPdf(item.id, item.invoiceNumber)}
-            className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+            className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all"
             title="Download PDF"
           >
             <Download size={16} />
@@ -186,12 +186,12 @@ const InvoicesPage: React.FC = () => {
             }}
             className="flex items-center px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-sm shadow-sm transition-all active:scale-95"
           >
-            <Download size={18} className="mr-2 text-indigo-600" />
+            <Download size={18} className="mr-2 text-orange-500" />
             Export CSV
           </button>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold text-sm shadow-lg shadow-indigo-200 transition-all active:scale-95"
+            className="flex items-center px-4 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 font-bold text-sm shadow-lg shadow-orange-200 transition-all active:scale-95"
           >
             <Plus size={18} className="mr-2" />
             Create Invoice
@@ -207,7 +207,7 @@ const InvoicesPage: React.FC = () => {
               onClick={() => setParams(p => ({ ...p, status: tab.value, page: 0 }))}
               className={cn(
                 "px-4 py-1.5 text-xs font-bold rounded-lg transition-all",
-                params.status === tab.value ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                params.status === tab.value ? "bg-white text-orange-500 shadow-sm" : "text-slate-500 hover:text-slate-700"
               )}
             >
               {tab.label}
@@ -291,7 +291,7 @@ const InvoicesPage: React.FC = () => {
                   </div>
                   <div className="flex justify-between text-slate-500">
                     <span>Tax ({selectedInvoice.taxPercent}%)</span>
-                    <span className="text-indigo-600">+{formatCurrency(selectedInvoice.tax)}</span>
+                    <span className="text-orange-500">+{formatCurrency(selectedInvoice.tax)}</span>
                   </div>
                   <div className="flex justify-between text-slate-500">
                     <span>Discount</span>

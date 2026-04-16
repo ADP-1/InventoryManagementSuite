@@ -65,7 +65,7 @@ const TopProductsChart: React.FC<TopProductsChartProps> = ({ data, isLoading }) 
               {chartData.map((_entry, index) => (
                 <Cell 
                   key={`cell-${index}`} 
-                  fill="#6366f1" 
+                  fill="#f97316" 
                   fillOpacity={1 - index * 0.15} 
                 />
               ))}
