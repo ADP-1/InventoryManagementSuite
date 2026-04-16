@@ -1,0 +1,162 @@
+We are redesigning DashboardPage.tsx to match the Nusantara Restaurant reference UI.
+Approved strategy with the following corrections — implement exactly as specified below.
+
+## Tech constraints
+- React 19 + TypeScript + Tailwind CSS
+- recharts for all charts
+- Existing hooks: useDashboardStats(), data shape:
+  { totalProducts, totalCategories, totalCustomers, totalInvoices,
+    totalRevenue, pendingInvoices, lowStockProducts, monthlyRevenue: [{month, revenue}] }
+- Existing hooks: useProducts({ page: 0, size: 10, sort: 'createdAt,desc' })
+- Currency: ₹ prefix, toLocaleString('en-IN') formatting
+- Color palette: orange-500 as primary accent, white cards, gray-50 page background
+
+---
+
+## Section 1 — Profit Hero Card
+
+Layout: full-width orange card, height ~180px
+Background: bg-orange-500 solid (NO gradient)
+Overlay: decorative SVG wave at bottom of card, white with opacity-20
+
+Left side content:
+- Label: "Total Revenue" in white/70 opacity, 13px
+- Value: ₹{totalRevenue} in white, 32px font-weight-600
+- Badge: show month-over-month change calculated from last 2 entries in monthlyRevenue array
+  formula: ((lastMonth - prevMonth) / prevMonth * 100).toFixed(1) + '%'
+  show "+X%" in green-100 badge if positive, red-100 if negative, "N/A" if < 2 data points
+
+Right side content:
+- Sparkline using recharts AreaChart (ResponsiveContainer width="100%" height={80})
+- Data: monthlyRevenue mapped to { name: month, value: Number(revenue) }
+- AreaChart: NO axes, NO grid, NO tooltip, NO legend
+- stroke="white" strokeWidth={2}
+- fill="rgba(255,255,255,0.15)"
+- Smooth curve: type="monotone"
+
+---
+
+## Section 2 — KPI Cards Row
+
+4 equal columns, white cards, rounded-2xl, shadow-sm, p-5
+
+Card 1: Total Products
+- Icon: Package (lucide-react), orange-100 background circle
+- Value: {totalProducts}
+- Label: "Total Products"
+- Sub: "Update: today's date"
+
+Card 2: Total Customers
+- Icon: Users (lucide-react), blue-100 background circle
+- Value: {totalCustomers}
+
+Card 3: Pending Invoices
+- Icon: FileText (lucide-react), amber-100 background circle
+- Value: {pendingInvoices}
+
+Card 4: Low Stock Alerts
+- Icon: AlertTriangle (lucide-react), red-100 background circle
+- Value: {lowStockProducts}
+- Text turns red if lowStockProducts > 0
+
+---
+
+## Section 3 — Monthly Revenue Chart (left, ~65% width)
+
+Title: "Revenue Overview"
+Right of title: month/year label showing current month
+
+Chart: recharts BarChart
+- Data: monthlyRevenue mapped to { name: month, value: Number(revenue) }
+  IMPORTANT: revenue from API is BigDecimal string — always wrap in Number() before passing to recharts
+- Single Bar, fill="#f97316" (orange-500), radius={[4,4,0,0]}
+- XAxis: dataKey="name", tick fontSize 12
+- YAxis: tickFormatter={(v) => '₹' + (v/1000).toFixed(0) + 'k'}
+- CartesianGrid: strokeDasharray="3 3" vertical={false}
+- Tooltip: formatter={(v) => ['₹' + Number(v).toLocaleString('en-IN'), 'Revenue']}
+- ResponsiveContainer width="100%" height={240}
+- No legend needed
+
+---
+
+## Section 4 — Target Prediction Widget (right, ~35% width)
+
+const MONTHLY_TARGET = 100000
+
+Calculate:
+- currentMonthRevenue = last entry in monthlyRevenue array (or 0)
+- progressPct = Math.min((currentMonthRevenue / MONTHLY_TARGET) * 100, 100).toFixed(0)
+
+Display:
+- Title: "Monthly Target"
+- Target value: ₹{MONTHLY_TARGET.toLocaleString('en-IN')}
+- Current: ₹{currentMonthRevenue.toLocaleString('en-IN')}
+- Progress bar: orange-500 fill, gray-100 track, rounded-full, height 8px
+- Percentage label: "{progressPct}% achieved"
+- Below bar: short dynamic message:
+  if progressPct >= 100 → "Target achieved!"
+  if progressPct >= 75  → "Almost there, keep going"
+  if progressPct >= 50  → "Good progress this month"
+  else                  → "Early in the month, keep pushing"
+
+---
+
+## Section 5 — Product List (bottom, full width)
+
+Two tabs: "Low Stock" | "Recently Added"
+Active tab: orange-500 underline border, font-weight-500
+Inactive tab: gray-400 text
+
+Tab 1 — Low Stock:
+Data source: useProducts({ page: 0, size: 8, sort: 'quantity,asc' }) filtered where quantity <= 10
+Columns: Avatar | Name | Category | Price | Stock badge
+Stock badge: red-100 text-red-700 if quantity <= 5, amber-100 text-amber-700 if <= 10
+
+Tab 2 — Recently Added:
+Data source: useProducts({ page: 0, size: 8, sort: 'createdAt,desc' })
+Columns: Avatar | Name | Category | Price | Created date
+
+Avatar for both tabs:
+- Colored circle showing first 2 initials of product name
+- Color determined by: ['bg-orange-100','bg-blue-100','bg-green-100','bg-purple-100','bg-pink-100'][productName.charCodeAt(0) % 5]
+- Text color uses matching 600 variant
+- NO external image URLs, NO broken img tags
+
+---
+
+## Layout grid
+
+```
+[  Profit Hero Card — full width                    ]
+[  KPI 1  ] [  KPI 2  ] [  KPI 3  ] [  KPI 4      ]
+[  Bar Chart (65%)          ] [ Target Widget (35%) ]
+[  Product List Tabs — full width                   ]
+```
+
+Use Tailwind grid:
+- Section 3+4: grid grid-cols-3 gap-6, chart is col-span-2, target is col-span-1
+
+---
+
+## Do NOT do the following
+- Do NOT use CSS gradients on the profit card
+- Do NOT hardcode revenue/product data — all values from hooks
+- Do NOT use <img> tags with placeholder URLs for product avatars
+- Do NOT use magic numbers — define MONTHLY_TARGET as a named const
+- Do NOT pass BigDecimal strings directly to recharts — always wrap in Number()
+- Do NOT use a single orange color for all chart bars — use orange-500 as the main bar color
+
+---
+
+## Loading and empty states
+- While useDashboardStats is loading: show LoadingSpinner centered in each section
+- If monthlyRevenue is empty array: show "No revenue data yet" in chart area
+- If lowStockProducts tab is empty: show "All products are well stocked" with green checkmark
+
+---
+
+## Deliver
+Single file: src/pages/dashboard/DashboardPage.tsx
+Fully self-contained, no new component files needed for this page.
+Run npm run build after implementation and confirm zero TypeScript errors.
+```
