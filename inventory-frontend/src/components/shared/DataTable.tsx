@@ -16,6 +16,7 @@ interface DataTableProps<T> {
   pageNumber?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
+  onRowClick?: (item: T) => void;
   emptyMessage?: string;
 }
 
@@ -26,6 +27,7 @@ const DataTable = <T extends { id: string | number }>({
   pageNumber = 0,
   totalPages = 1,
   onPageChange,
+  onRowClick,
   emptyMessage = "No records found"
 }: DataTableProps<T>) => {
   if (isLoading) {
@@ -68,9 +70,16 @@ const DataTable = <T extends { id: string | number }>({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
             {data.map((item) => (
-              <tr key={item.id} className="hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">
+              <tr 
+                key={item.id} 
+                onClick={() => onRowClick?.(item)}
+                className={cn(
+                  "transition-colors group",
+                  onRowClick ? "cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/50" : "hover:bg-slate-50/50 dark:hover:bg-slate-900/20"
+                )}
+              >
                 {columns.map((column, idx) => (
                   <td
                     key={idx}

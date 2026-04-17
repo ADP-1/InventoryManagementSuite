@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -63,11 +64,12 @@ public class ExportService {
     }
 
     @Transactional(readOnly = true)
-    public byte[] exportInvoicesCsv(InvoiceStatus status, LocalDateTime from, LocalDateTime to) {
+    public byte[] exportInvoicesCsv(InvoiceStatus status, LocalDateTime from, LocalDateTime to, UUID customerId) {
         List<Invoice> invoices = invoiceRepository.findAll().stream()
                 .filter(i -> (status == null || i.getStatus() == status))
                 .filter(i -> (from == null || !i.getCreatedAt().isBefore(from)))
                 .filter(i -> (to == null || !i.getCreatedAt().isAfter(to)))
+                .filter(i -> (customerId == null || i.getCustomer().getId().equals(customerId)))
                 .toList();
 
         return generateCsv(new String[]{"Invoice Number", "Customer", "Status", "Subtotal", "Tax", "Discount", "Total", "Created Date"},

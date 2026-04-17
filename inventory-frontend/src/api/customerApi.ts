@@ -1,5 +1,5 @@
 import axiosInstance from './axiosInstance';
-import { CustomerRequest, CustomerResponse } from '../types/customer.types';
+import { CustomerRequest, CustomerResponse, CustomerDetailsResponse } from '../types/customer.types';
 import { ApiResponse, PagedResponse, PageParams } from '../types/common.types';
 
 export const customerApi = {
@@ -15,7 +15,7 @@ export const customerApi = {
     return response.data;
   },
   getById: async (id: string) => {
-    const response = await axiosInstance.get<ApiResponse<CustomerResponse>>(`/customers/${id}`);
+    const response = await axiosInstance.get<ApiResponse<CustomerDetailsResponse>>(`/customers/${id}`);
     return response.data;
   },
   create: async (data: CustomerRequest) => {
@@ -38,6 +38,19 @@ export const customerApi = {
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', 'customers.csv');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  },
+  exportHistory: async (id: string, customerName: string) => {
+    const response = await axiosInstance.get(`/customers/${id}/export/csv`, {
+      responseType: 'blob',
+    });
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `transactions-${customerName.replace(/\s+/g, '_')}.csv`);
     document.body.appendChild(link);
     link.click();
     link.remove();

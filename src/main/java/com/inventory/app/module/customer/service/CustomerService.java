@@ -21,6 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+import com.inventory.app.module.customer.dto.response.CustomerDetailsResponse;
+import com.inventory.app.module.customer.dto.response.CustomerStats;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -49,6 +54,28 @@ public class CustomerService {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", id));
         return customerMapper.toResponse(customer);
+    }
+
+    @Transactional(readOnly = true)
+    public CustomerDetailsResponse getDetails(UUID id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", id));
+        
+        CustomerStats stats = invoiceRepository.getCustomerStats(id);
+        
+        // Ensure stats is never null and totalSpent is never null (though COALESCE handles it)
+        if (stats == null) {
+            stats = CustomerStats.builder()
+                    .totalInvoices(0)
+                    .totalSpent(BigDecimal.ZERO)
+                    .firstTransactionDate(null)
+                    .build();
+        }
+        
+        return CustomerDetailsResponse.builder()
+                .profile(customerMapper.toResponse(customer))
+                .stats(stats)
+                .build();
     }
 
     @Transactional(readOnly = true)

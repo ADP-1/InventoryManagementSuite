@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Search, FileText, X, Download } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Edit2, Trash2, Search, UserCircle, X, Download } from 'lucide-react';
 import toast from 'react-hot-toast';
 import PageHeader from '../../components/shared/PageHeader';
 import DataTable from '../../components/shared/DataTable';
 import CustomerForm from '../../components/forms/CustomerForm';
 import ConfirmDialog from '../../components/shared/ConfirmDialog';
 import { useCustomers } from '../../hooks/useCustomers';
-import { useCustomerInvoices } from '../../hooks/useInvoices';
 import { customerApi } from '../../api/customerApi';
 import { CustomerRequest, CustomerResponse } from '../../types/customer.types';
 import { useAuthStore } from '../../store/authStore';
-import { cn, formatDate, formatCurrency } from '../../lib/utils';
+import { cn, formatDate } from '../../lib/utils';
 
 const CustomersPage: React.FC = () => {
+  const navigate = useNavigate();
   const [params, setParams] = useState({ page: 0, size: 10, search: '' });
   const { 
     customers, 
@@ -31,7 +32,6 @@ const CustomersPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<CustomerResponse | undefined>();
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [viewingHistoryId, setViewingHistoryId] = useState<string | null>(null);
 
   const handleCreate = async (data: CustomerRequest) => {
     try {
@@ -80,9 +80,14 @@ const CustomersPage: React.FC = () => {
     { 
       header: 'Customer', 
       accessor: (item: CustomerResponse) => (
-        <div>
-          <p className="font-semibold text-slate-900 dark:text-white">{item.name}</p>
-          <p className="text-xs text-slate-500 dark:text-slate-400">{item.email}</p>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-500/10 flex items-center justify-center text-orange-600 dark:text-orange-400 font-bold text-xs">
+            {item.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+          </div>
+          <div>
+            <p className="font-bold text-slate-900 dark:text-white group-hover:text-orange-500 transition-colors">{item.name}</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{item.email}</p>
+          </div>
         </div>
       )
     },
@@ -107,23 +112,23 @@ const CustomersPage: React.FC = () => {
       accessor: (item: CustomerResponse) => (
         <div className="flex items-center space-x-2">
           <button 
-            onClick={() => setViewingHistoryId(item.id)}
-            className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all"
-            title="Invoice History"
+            onClick={(e) => { e.stopPropagation(); navigate(`/customers/${item.id}`); }}
+            className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all"
+            title="View Details"
           >
-            <FileText size={16} />
+            <UserCircle size={16} />
           </button>
           {!isCashier && (
             <>
               <button 
-                onClick={() => { setEditingCustomer(item); setIsModalOpen(true); }}
-                className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all"
+                onClick={(e) => { e.stopPropagation(); setEditingCustomer(item); setIsModalOpen(true); }}
+                className="p-1.5 text-slate-400 hover:text-orange-500 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all"
                 title="Edit Customer"
               >
                 <Edit2 size={16} />
               </button>
               <button 
-                onClick={() => setDeletingId(item.id)}
+                onClick={(e) => { e.stopPropagation(); setDeletingId(item.id); }}
                 className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
                 title="Delete Customer"
               >
@@ -183,6 +188,7 @@ const CustomersPage: React.FC = () => {
         pageNumber={customers?.pageNumber}
         totalPages={customers?.totalPages}
         onPageChange={(page) => setParams(prev => ({ ...prev, page }))}
+        onRowClick={(item: CustomerResponse) => navigate(`/customers/${item.id}`)}
       />
 
       {isModalOpen && (
@@ -194,13 +200,6 @@ const CustomersPage: React.FC = () => {
         />
       )}
 
-      {viewingHistoryId && (
-        <CustomerHistoryModal 
-          customerId={viewingHistoryId} 
-          onClose={() => setViewingHistoryId(null)} 
-        />
-      )}
-
       <ConfirmDialog 
         isOpen={!!deletingId}
         onClose={() => setDeletingId(null)}
@@ -209,58 +208,6 @@ const CustomersPage: React.FC = () => {
         message="Are you sure you want to delete this customer? This action cannot be undone and will mark the customer as inactive."
         isLoading={isDeleting}
       />
-    </div>
-  );
-};
-
-interface HistoryModalProps {
-  customerId: string;
-  onClose: () => void;
-}
-
-const CustomerHistoryModal: React.FC<HistoryModalProps> = ({ customerId, onClose }) => {
-  const { data: response, isLoading } = useCustomerInvoices(customerId);
-  const invoices = response?.data.content || [];
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 max-w-3xl w-full max-h-[80vh] flex flex-col">
-        <div className="p-6 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white">Invoice History</h3>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 dark:text-slate-300">
-            <X size={20} />
-          </button>
-        </div>
-        <div className="flex-1 overflow-y-auto p-6">
-          {isLoading ? (
-            <div className="py-12 flex justify-center"><div className="w-8 h-8 border-4 border-orange-500/20 border-t-orange-500 rounded-full animate-spin" /></div>
-          ) : invoices.length > 0 ? (
-            <div className="space-y-4">
-              {invoices.map(inv => (
-                <div key={inv.id} className="p-4 border border-slate-100 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:bg-slate-900/50 transition-colors flex items-center justify-between">
-                  <div>
-                    <p className="font-bold text-slate-900 dark:text-white">{inv.invoiceNumber}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{formatDate(inv.createdAt)}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-bold text-orange-500">{formatCurrency(inv.total)}</p>
-                    <span className={cn(
-                      "px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider",
-                      inv.status === 'PAID' ? "bg-green-100 text-green-700" :
-                      inv.status === 'ISSUED' ? "bg-blue-100 text-blue-700" :
-                      inv.status === 'CANCELLED' ? "bg-red-100 text-red-700" : "bg-slate-100 dark:bg-slate-800/50 text-slate-700 dark:text-slate-200"
-                    )}>
-                      {inv.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="py-12 text-center text-slate-400">No invoices found for this customer.</div>
-          )}
-        </div>
-      </div>
     </div>
   );
 };

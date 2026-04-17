@@ -9,6 +9,7 @@ const DashboardPage = React.lazy(() => import('../pages/dashboard/DashboardPage'
 const CategoriesPage = React.lazy(() => import('../pages/inventory/CategoriesPage'));
 const ProductsPage = React.lazy(() => import('../pages/inventory/ProductsPage'));
 const CustomersPage = React.lazy(() => import('../pages/customers/CustomersPage'));
+const CustomerDetailsPage = React.lazy(() => import('../pages/customers/CustomerDetailsPage'));
 const InvoicesPage = React.lazy(() => import('../pages/billing/InvoicesPage'));
 const AnalyticsPage = React.lazy(() => import('../pages/analytics/AnalyticsPage'));
 const SettingsPage = React.lazy(() => import('../pages/settings/SettingsPage'));
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
       {
         path: 'customers',
         element: <CustomersPage />,
+      },
+      {
+        path: 'customers/:id',
+        element: <CustomerDetailsPage />,
       },
       {
         path: 'billing/invoices',

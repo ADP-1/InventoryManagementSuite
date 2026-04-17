@@ -46,7 +46,7 @@ export const invoiceApi = {
     link.remove();
     window.URL.revokeObjectURL(url);
   },
-  exportCsv: async (params?: { status?: InvoiceStatus; from?: string; to?: string }) => {
+  exportCsv: async (params?: { status?: InvoiceStatus; from?: string; to?: string; customerId?: string }) => {
     const response = await axiosInstance.get('/export/invoices.csv', {
       params,
       responseType: 'blob',

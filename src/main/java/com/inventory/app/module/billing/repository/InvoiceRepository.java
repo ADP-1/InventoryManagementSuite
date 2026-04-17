@@ -53,4 +53,10 @@ public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
 
     @Query("SELECT COUNT(i) FROM Invoice i WHERE i.status IN (com.inventory.app.module.billing.entity.InvoiceStatus.DRAFT, com.inventory.app.module.billing.entity.InvoiceStatus.ISSUED)")
     long countPendingInvoices();
+
+    @Query("SELECT new com.inventory.app.module.customer.dto.response.CustomerStats(" +
+           "COUNT(i), SUM(i.total), MIN(i.createdAt)) " +
+           "FROM Invoice i JOIN i.customer c " +
+           "WHERE c.id = :customerId AND i.status != com.inventory.app.module.billing.entity.InvoiceStatus.CANCELLED")
+    com.inventory.app.module.customer.dto.response.CustomerStats getCustomerStats(@Param("customerId") UUID customerId);
 }

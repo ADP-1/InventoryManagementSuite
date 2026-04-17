@@ -21,6 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import com.inventory.app.module.customer.dto.response.CustomerDetailsResponse;
+import com.inventory.app.module.export.service.ExportService;
+import org.springframework.http.HttpHeaders;
+
 @RestController
 @RequestMapping("/customers")
 @RequiredArgsConstructor
@@ -34,6 +38,7 @@ import java.util.UUID;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final ExportService exportService;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
@@ -50,10 +55,10 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    @Operation(summary = "Get customer by ID")
+    @Operation(summary = "Get customer details with aggregated stats")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK")
-    public ResponseEntity<ApiResponse<CustomerResponse>> findById(@PathVariable UUID id) {
-        CustomerResponse response = customerService.findById(id);
+    public ResponseEntity<ApiResponse<CustomerDetailsResponse>> findById(@PathVariable UUID id) {
+        CustomerDetailsResponse response = customerService.getDetails(id);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
@@ -108,5 +113,19 @@ public class CustomerController {
             @PathVariable UUID id, @ParameterObject Pageable pageable) {
         PagedResponse<InvoiceResponse> response = customerService.getInvoiceHistory(id, pageable);
         return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/{id}/export/csv")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @Operation(summary = "Export customer transaction history to CSV")
+    public ResponseEntity<byte[]> exportHistory(@PathVariable UUID id) {
+        byte[] csvBytes = exportService.exportInvoicesCsv(null, null, null, id);
+        CustomerResponse customer = customerService.findById(id);
+        String filename = "transactions-" + customer.getName().replaceAll("\\s+", "_") + ".csv";
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, "text/csv")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .body(csvBytes);
     }
 }

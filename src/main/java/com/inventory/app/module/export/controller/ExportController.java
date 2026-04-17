@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Tag(name = "Export", description = "Export data to CSV format")
 @RestController
@@ -54,8 +55,9 @@ public class ExportController {
     public ResponseEntity<byte[]> exportInvoices(
             @RequestParam(required = false) InvoiceStatus status,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
-        byte[] csvBytes = exportService.exportInvoicesCsv(status, from, to);
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to,
+            @RequestParam(required = false) UUID customerId) {
+        byte[] csvBytes = exportService.exportInvoicesCsv(status, from, to, customerId);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "text/csv")
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"invoices.csv\"")

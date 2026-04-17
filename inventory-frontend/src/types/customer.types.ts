@@ -9,6 +9,17 @@ export interface CustomerResponse {
   updatedAt: string;
 }
 
+export interface CustomerStats {
+  totalInvoices: number;
+  totalSpent: number;
+  firstTransactionDate: string | null;
+}
+
+export interface CustomerDetailsResponse {
+  profile: CustomerResponse;
+  stats: CustomerStats;
+}
+
 export interface CustomerRequest {
   name: string;
   email: string;
