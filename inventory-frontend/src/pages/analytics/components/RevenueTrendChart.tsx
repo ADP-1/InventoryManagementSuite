@@ -12,9 +12,9 @@ interface RevenueTrendChartProps {
 const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, isLoading, days }) => {
   if (isLoading) {
     return (
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-pulse">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm animate-pulse">
         <div className="h-4 bg-slate-200 rounded w-1/4 mb-6" />
-        <div className="h-[220px] bg-slate-100 rounded-xl" />
+        <div className="h-[220px] bg-slate-100 dark:bg-slate-800/50 rounded-xl" />
       </div>
     );
   }
@@ -23,11 +23,11 @@ const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data, isLoading, 
   const sortedData = [...(data || [])].sort((a, b) => a.date.localeCompare(b.date));
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+    <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-slate-900 font-bold text-lg">Revenue Trend</h3>
-          <p className="text-slate-500 text-sm">Revenue over the last {days} days</p>
+          <h3 className="text-slate-900 dark:text-white font-bold text-lg">Revenue Trend</h3>
+          <p className="text-slate-500 dark:text-slate-400 text-sm">Revenue over the last {days} days</p>
         </div>
       </div>
       

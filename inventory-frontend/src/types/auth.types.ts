@@ -16,7 +16,13 @@ export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   tokenType: string;
+  name: string;
   email: string;
   role: Role;
   expiresIn: number;
+}
+
+export interface UpdateProfileRequest {
+  name: string;
+  email: string;
 }

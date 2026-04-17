@@ -11,9 +11,9 @@ interface TopProductsChartProps {
 const TopProductsChart: React.FC<TopProductsChartProps> = ({ data, isLoading }) => {
   if (isLoading) {
     return (
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-pulse">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm animate-pulse">
         <div className="h-4 bg-slate-200 rounded w-1/4 mb-6" />
-        <div className="h-[220px] bg-slate-100 rounded-xl" />
+        <div className="h-[220px] bg-slate-100 dark:bg-slate-800/50 rounded-xl" />
       </div>
     );
   }
@@ -25,8 +25,8 @@ const TopProductsChart: React.FC<TopProductsChartProps> = ({ data, isLoading }) 
   })) || [];
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-      <h3 className="text-slate-900 font-bold text-lg mb-6">Top 5 Products by Revenue</h3>
+    <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+      <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-6">Top 5 Products by Revenue</h3>
       
       <div className="h-[220px] w-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -55,7 +55,7 @@ const TopProductsChart: React.FC<TopProductsChartProps> = ({ data, isLoading }) 
                 name === 'totalRevenue' ? formatCurrency(value) : value, 
                 name === 'totalRevenue' ? 'Revenue' : 'Quantity Sold'
               ]}
-              labelClassName="font-bold text-slate-900"
+              labelClassName="font-bold text-slate-900 dark:text-white"
             />
             <Bar 
               dataKey="totalRevenue" 

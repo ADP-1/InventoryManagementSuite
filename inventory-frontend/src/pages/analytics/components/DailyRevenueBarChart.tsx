@@ -11,9 +11,9 @@ interface DailyRevenueBarChartProps {
 const DailyRevenueBarChart: React.FC<DailyRevenueBarChartProps> = ({ data, isLoading }) => {
   if (isLoading) {
     return (
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-pulse">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm animate-pulse">
         <div className="h-4 bg-slate-200 rounded w-1/4 mb-6" />
-        <div className="h-[220px] bg-slate-100 rounded-xl" />
+        <div className="h-[220px] bg-slate-100 dark:bg-slate-800/50 rounded-xl" />
       </div>
     );
   }
@@ -22,10 +22,10 @@ const DailyRevenueBarChart: React.FC<DailyRevenueBarChartProps> = ({ data, isLoa
   const chartData = [...(data || [])].sort((a, b) => a.date.localeCompare(b.date));
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+    <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-slate-900 font-bold text-lg">Daily Sales Performance</h3>
-        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 px-2 py-1 rounded-md border border-slate-100">
+        <h3 className="text-slate-900 dark:text-white font-bold text-lg">Daily Sales Performance</h3>
+        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-100 dark:border-slate-700">
           Revenue / Day
         </span>
       </div>

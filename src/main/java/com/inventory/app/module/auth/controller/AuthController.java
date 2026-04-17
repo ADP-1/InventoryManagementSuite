@@ -8,6 +8,7 @@ import com.inventory.app.module.auth.dto.AuthResponse;
 import com.inventory.app.module.auth.dto.LoginRequest;
 import com.inventory.app.module.auth.dto.RefreshRequest;
 import com.inventory.app.module.auth.dto.RegisterRequest;
+import com.inventory.app.module.auth.dto.UpdateProfileRequest;
 import com.inventory.app.module.auth.service.AuthService;
 import com.inventory.app.module.user.entity.User;
 import com.inventory.app.module.user.repository.UserRepository;
@@ -74,5 +75,16 @@ public class AuthController {
         user.setPassword(null);
         
         return ResponseEntity.ok(ApiResponse.success(user));
+    }
+
+    @PutMapping("/profile")
+    @Operation(summary = "Update user profile")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK")
+    public ResponseEntity<ApiResponse<AuthResponse>> updateProfile(@Valid @RequestBody UpdateProfileRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        
+        AuthResponse response = authService.updateProfile(email, request);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

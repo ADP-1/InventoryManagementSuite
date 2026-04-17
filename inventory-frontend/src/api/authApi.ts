@@ -1,5 +1,5 @@
 import axiosInstance from './axiosInstance';
-import { LoginRequest, RegisterRequest, AuthResponse } from '../types/auth.types';
+import { LoginRequest, RegisterRequest, AuthResponse, UpdateProfileRequest } from '../types/auth.types';
 import { ApiResponse } from '../types/common.types';
 
 export const authApi = {
@@ -13,6 +13,10 @@ export const authApi = {
   },
   refresh: async (refreshToken: string) => {
     const response = await axiosInstance.post<ApiResponse<AuthResponse>>('/auth/refresh', { refreshToken });
+    return response.data;
+  },
+  updateProfile: async (data: UpdateProfileRequest) => {
+    const response = await axiosInstance.put<ApiResponse<AuthResponse>>('/auth/profile', data);
     return response.data;
   },
 };

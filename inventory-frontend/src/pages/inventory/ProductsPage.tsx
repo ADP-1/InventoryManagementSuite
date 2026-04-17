@@ -106,8 +106,8 @@ const ProductsPage: React.FC = () => {
       header: 'Product', 
       accessor: (item: ProductResponse) => (
         <div>
-          <p className="font-semibold text-slate-900">{item.name}</p>
-          <p className="text-xs text-slate-500">{item.sku}</p>
+          <p className="font-semibold text-slate-900 dark:text-white">{item.name}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{item.sku}</p>
         </div>
       )
     },
@@ -122,7 +122,7 @@ const ProductsPage: React.FC = () => {
         <div className="flex items-center space-x-2">
           <span className={cn(
             "font-bold",
-            item.quantity < 10 ? "text-red-600" : "text-slate-700"
+            item.quantity < 10 ? "text-red-600" : "text-slate-700 dark:text-slate-200"
           )}>
             {item.quantity}
           </span>
@@ -181,7 +181,7 @@ const ProductsPage: React.FC = () => {
           <div className="flex gap-3">
             <button 
               onClick={handleExportCsv}
-              className="flex items-center px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-sm shadow-sm transition-all active:scale-95"
+              className="flex items-center px-4 py-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:bg-slate-900/50 font-bold text-sm shadow-sm transition-all active:scale-95"
             >
               <Download size={18} className="mr-2 text-orange-500" />
               Export CSV
@@ -205,7 +205,7 @@ const ProductsPage: React.FC = () => {
           <input
             type="text"
             placeholder="Search by name, SKU or price..."
-            className="block w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+            className="block w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
             onChange={(e) => setParams(p => ({ ...p, search: e.target.value, page: 0 }))}
           />
         </div>
@@ -231,37 +231,37 @@ const ProductsPage: React.FC = () => {
 
       {stockModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-md w-full overflow-hidden">
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-slate-900">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 max-w-md w-full overflow-hidden">
+            <div className="p-6 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                 {stockModal.type === 'ADD' ? 'Add Stock' : 'Deduct Stock'}
               </h3>
-              <button onClick={() => setStockModal(null)} className="p-2 text-slate-400 hover:text-slate-600">
+              <button onClick={() => setStockModal(null)} className="p-2 text-slate-400 hover:text-slate-600 dark:text-slate-300">
                 <X size={20} />
               </button>
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Quantity</label>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">Quantity</label>
                 <input
                   type="number"
-                  className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:border-orange-500"
+                  className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:border-orange-500"
                   value={stockAmount}
                   onChange={(e) => setStockAmount(Number(e.target.value))}
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Reason</label>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">Reason</label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:border-orange-500"
+                  className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:border-orange-500"
                   placeholder="e.g. New shipment, Manual adjustment"
                   value={stockReason}
                   onChange={(e) => setStockReason(e.target.value)}
                 />
               </div>
               <div className="flex justify-end gap-3 pt-2">
-                <button onClick={() => setStockModal(null)} className="px-4 py-2 text-slate-700 font-semibold border rounded-lg">Cancel</button>
+                <button onClick={() => setStockModal(null)} className="px-4 py-2 text-slate-700 dark:text-slate-200 font-semibold border rounded-lg">Cancel</button>
                 <button 
                   onClick={handleStockAdjustment}
                   disabled={isAddingStock || isDeductingStock}

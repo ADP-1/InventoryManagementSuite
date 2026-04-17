@@ -30,36 +30,36 @@ const DataTable = <T extends { id: string | number }>({
 }: DataTableProps<T>) => {
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 flex flex-col items-center justify-center">
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-12 flex flex-col items-center justify-center">
         <LoadingSpinner size={40} />
-        <p className="mt-4 text-slate-500 font-medium">Loading data...</p>
+        <p className="mt-4 text-slate-500 dark:text-slate-400 font-medium">Loading data...</p>
       </div>
     );
   }
 
   if (!data || data.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-16 flex flex-col items-center justify-center text-center">
-        <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-16 flex flex-col items-center justify-center text-center">
+        <div className="w-16 h-16 bg-slate-50 dark:bg-slate-900/50 rounded-full flex items-center justify-center mb-4">
           <Inbox className="w-8 h-8 text-slate-400" />
         </div>
-        <h3 className="text-lg font-semibold text-slate-900">{emptyMessage}</h3>
-        <p className="text-slate-500 mt-1 max-w-xs">Try adjusting your filters or add a new record to get started.</p>
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{emptyMessage}</h3>
+        <p className="text-slate-500 dark:text-slate-400 mt-1 max-w-xs">Try adjusting your filters or add a new record to get started.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-slate-50 border-b border-slate-200">
+          <thead className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
             <tr>
               {columns.map((column, idx) => (
                 <th
                   key={idx}
                   className={cn(
-                    "px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider",
+                    "px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider",
                     column.className
                   )}
                 >
@@ -70,12 +70,12 @@ const DataTable = <T extends { id: string | number }>({
           </thead>
           <tbody className="divide-y divide-slate-200">
             {data.map((item) => (
-              <tr key={item.id} className="hover:bg-slate-50 transition-colors">
+              <tr key={item.id} className="hover:bg-slate-50 dark:bg-slate-900/50 transition-colors">
                 {columns.map((column, idx) => (
                   <td
                     key={idx}
                     className={cn(
-                      "px-6 py-4 text-sm text-slate-600 whitespace-nowrap",
+                      "px-6 py-4 text-sm text-slate-600 dark:text-slate-300 whitespace-nowrap",
                       column.className
                     )}
                   >
@@ -91,22 +91,22 @@ const DataTable = <T extends { id: string | number }>({
       </div>
 
       {totalPages > 1 && (
-        <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
-          <p className="text-sm text-slate-500">
+        <div className="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             Page <span className="font-medium">{pageNumber + 1}</span> of <span className="font-medium">{totalPages}</span>
           </p>
           <div className="flex items-center space-x-2">
             <button
               onClick={() => onPageChange?.(pageNumber - 1)}
               disabled={pageNumber === 0}
-              className="p-2 rounded-md border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 rounded-md border border-slate-300 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:bg-slate-900/50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={() => onPageChange?.(pageNumber + 1)}
               disabled={pageNumber >= totalPages - 1}
-              className="p-2 rounded-md border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 rounded-md border border-slate-300 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:bg-slate-900/50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ChevronRight size={18} />
             </button>

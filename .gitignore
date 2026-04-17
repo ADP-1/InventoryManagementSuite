@@ -44,4 +44,4 @@ out/
 ### Scripts ###
 *.py
 seed_data.py
-seed_indian_data.py
+new_cutomers.txt

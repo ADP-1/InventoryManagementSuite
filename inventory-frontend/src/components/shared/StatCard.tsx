@@ -26,11 +26,11 @@ const StatCard: React.FC<StatCardProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm animate-pulse flex items-start gap-4">
-        <div className="w-12 h-12 bg-slate-100 rounded-full shrink-0" />
+      <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm animate-pulse flex items-start gap-4">
+        <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800/50 rounded-full shrink-0" />
         <div className="flex-1 space-y-2 py-1">
-          <div className="h-4 bg-slate-100 rounded w-1/2" />
-          <div className="h-6 bg-slate-100 rounded w-3/4" />
+          <div className="h-4 bg-slate-100 dark:bg-slate-800/50 rounded w-1/2" />
+          <div className="h-6 bg-slate-100 dark:bg-slate-800/50 rounded w-3/4" />
         </div>
       </div>
     );
@@ -40,7 +40,7 @@ const StatCard: React.FC<StatCardProps> = ({
     <div
       onClick={onClick}
       className={cn(
-        "bg-white p-5 rounded-2xl border border-slate-100 shadow-sm transition-all hover:shadow-md group flex items-start gap-4",
+        "bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm transition-all hover:shadow-md group flex items-start gap-4",
         onClick && "cursor-pointer active:scale-95"
       )}
     >
@@ -52,7 +52,7 @@ const StatCard: React.FC<StatCardProps> = ({
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between mb-1">
-          <h3 className="text-slate-500 text-sm font-medium truncate">{title}</h3>
+          <h3 className="text-slate-500 dark:text-slate-400 text-sm font-medium truncate">{title}</h3>
           {trend !== undefined && (
             <div className={cn(
               "flex items-center text-[10px] font-bold px-1.5 py-0.5 rounded-full shrink-0",
@@ -63,7 +63,7 @@ const StatCard: React.FC<StatCardProps> = ({
             </div>
           )}
         </div>
-        <p className="text-2xl font-bold text-slate-900 leading-none">{value}</p>
+        <p className="text-2xl font-bold text-slate-900 dark:text-white leading-none">{value}</p>
         {subtitle && (
           <p className="text-slate-400 text-[10px] mt-1.5 font-medium truncate uppercase tracking-wider">
             {subtitle}

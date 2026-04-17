@@ -27,13 +27,13 @@ class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6 text-center">
-          <div className="max-w-md w-full bg-white p-10 rounded-3xl border border-slate-200 shadow-2xl">
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900/50 p-6 text-center">
+          <div className="max-w-md w-full bg-white dark:bg-slate-800 p-10 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-2xl">
             <div className="w-20 h-20 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
               <AlertCircle size={40} strokeWidth={2.5} />
             </div>
-            <h1 className="text-2xl font-black text-slate-900 mb-3">Something went wrong</h1>
-            <p className="text-slate-500 font-medium mb-8 leading-relaxed">
+            <h1 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Something went wrong</h1>
+            <p className="text-slate-500 dark:text-slate-400 font-medium mb-8 leading-relaxed">
               We've encountered an unexpected error. Our team has been notified.
             </p>
             

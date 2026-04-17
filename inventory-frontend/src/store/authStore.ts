@@ -5,6 +5,7 @@ import { AuthResponse, Role } from '../types/auth.types';
 interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
+  name: string | null;
   email: string | null;
   role: Role | null;
   isAuthenticated: boolean;
@@ -17,6 +18,7 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       accessToken: null,
       refreshToken: null,
+      name: null,
       email: null,
       role: null,
       isAuthenticated: false,
@@ -24,6 +26,7 @@ export const useAuthStore = create<AuthState>()(
         set({
           accessToken: data.accessToken,
           refreshToken: data.refreshToken,
+          name: data.name,
           email: data.email,
           role: data.role,
           isAuthenticated: true,
@@ -32,6 +35,7 @@ export const useAuthStore = create<AuthState>()(
         set({
           accessToken: null,
           refreshToken: null,
+          name: null,
           email: null,
           role: null,
           isAuthenticated: false,

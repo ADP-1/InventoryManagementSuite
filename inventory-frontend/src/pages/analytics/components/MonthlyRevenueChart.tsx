@@ -11,9 +11,9 @@ interface MonthlyRevenueChartProps {
 const MonthlyRevenueChart: React.FC<MonthlyRevenueChartProps> = ({ data, isLoading }) => {
   if (isLoading) {
     return (
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-pulse">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm animate-pulse">
         <div className="h-4 bg-slate-200 rounded w-1/4 mb-6" />
-        <div className="h-[220px] bg-slate-100 rounded-xl" />
+        <div className="h-[220px] bg-slate-100 dark:bg-slate-800/50 rounded-xl" />
       </div>
     );
   }
@@ -25,8 +25,8 @@ const MonthlyRevenueChart: React.FC<MonthlyRevenueChartProps> = ({ data, isLoadi
   });
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-      <h3 className="text-slate-900 font-bold text-lg mb-6">Monthly Comparison</h3>
+    <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+      <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-6">Monthly Comparison</h3>
       
       <div className="h-[220px] w-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -60,7 +60,7 @@ const MonthlyRevenueChart: React.FC<MonthlyRevenueChartProps> = ({ data, isLoadi
               iconType="circle"
               iconSize={8}
               formatter={(value) => (
-                <span className="text-xs font-semibold text-slate-600 ml-1">
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 ml-1">
                   {value === 'revenue' ? 'This Year' : 'Prev Year'}
                 </span>
               )}

@@ -17,9 +17,9 @@ const COLORS = {
 const InvoiceStatusChart: React.FC<InvoiceStatusChartProps> = ({ data, isLoading }) => {
   if (isLoading) {
     return (
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-pulse">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm animate-pulse">
         <div className="h-4 bg-slate-200 rounded w-1/3 mb-6" />
-        <div className="h-[240px] bg-slate-100 rounded-full w-[240px] mx-auto" />
+        <div className="h-[240px] bg-slate-100 dark:bg-slate-800/50 rounded-full w-[240px] mx-auto" />
       </div>
     );
   }
@@ -27,13 +27,13 @@ const InvoiceStatusChart: React.FC<InvoiceStatusChartProps> = ({ data, isLoading
   const total = data?.reduce((acc, item) => acc + item.count, 0) || 0;
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-      <h3 className="text-slate-900 font-bold text-lg mb-6">Invoice Status</h3>
+    <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+      <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-6">Invoice Status</h3>
       
       <div className="h-[240px] w-full relative">
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-2xl font-bold text-slate-900">{total}</span>
-          <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Total</span>
+          <span className="text-2xl font-bold text-slate-900 dark:text-white">{total}</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">Total</span>
         </div>
         
         <ResponsiveContainer width="100%" height="100%">
@@ -74,7 +74,7 @@ const InvoiceStatusChart: React.FC<InvoiceStatusChartProps> = ({ data, isLoading
               iconType="circle"
               iconSize={8}
               formatter={(value) => (
-                <span className="text-xs font-semibold text-slate-600 ml-1 capitalize">
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 ml-1 capitalize">
                   {value.toLowerCase()}
                 </span>
               )}

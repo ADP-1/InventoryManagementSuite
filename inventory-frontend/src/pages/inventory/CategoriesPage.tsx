@@ -64,7 +64,7 @@ const CategoriesPage: React.FC = () => {
   };
 
   const columns = [
-    { header: 'Name', accessor: 'name' as keyof CategoryResponse, className: "font-semibold text-slate-900" },
+    { header: 'Name', accessor: 'name' as keyof CategoryResponse, className: "font-semibold text-slate-900 dark:text-white" },
     { header: 'Description', accessor: 'description' as keyof CategoryResponse },
     { 
       header: 'Status', 

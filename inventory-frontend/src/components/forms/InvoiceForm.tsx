@@ -96,13 +96,13 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-4xl w-full h-[90vh] flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
-        <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50/50">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-4xl w-full h-[90vh] flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50/50">
           <div>
-            <h3 className="text-xl font-bold text-slate-900">Create New Invoice</h3>
-            <p className="text-xs text-slate-500 mt-0.5 uppercase tracking-wider font-semibold">Billing Module</p>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Create New Invoice</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 uppercase tracking-wider font-semibold">Billing Module</p>
           </div>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-white rounded-full transition-colors border border-transparent hover:border-slate-200 shadow-sm">
+          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 dark:text-slate-300 hover:bg-white dark:bg-slate-800 rounded-full transition-colors border border-transparent hover:border-slate-200 dark:border-slate-700 shadow-sm">
             <X size={20} />
           </button>
         </div>
@@ -115,10 +115,10 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
                 Customer Details
               </h4>
               <div className="p-4 bg-orange-50/50 rounded-2xl border border-orange-100">
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Select Customer</label>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Select Customer</label>
                 <select
                   {...register('customerId')}
-                  className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+                  className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 >
                   <option value="">Choose a customer...</option>
                   {customers?.content.map(c => <option key={c.id} value={c.id}>{c.name} ({c.email})</option>)}
@@ -134,19 +134,19 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
               </h4>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1.5">Tax (%)</label>
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Tax (%)</label>
                   <input
                     type="number"
                     {...register('taxPercent')}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1.5">Discount (₹)</label>
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Discount (₹)</label>
                   <input
                     type="number"
                     {...register('discount')}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                   />
                 </div>
               </div>
@@ -166,25 +166,25 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
               </button>
             </div>
 
-            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
               <table className="w-full text-left border-collapse">
-                <thead className="bg-slate-50 border-b border-slate-200">
+                <thead className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
                   <tr>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider w-1/2">Product</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider w-24">Qty</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Unit Price</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider w-12"></th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-1/2">Product</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-24">Qty</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Unit Price</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-12"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {fields.map((field, index) => (
-                    <tr key={field.id} className="group hover:bg-slate-50/50 transition-colors">
+                    <tr key={field.id} className="group hover:bg-slate-50 dark:bg-slate-900/50/50 transition-colors">
                       <td className="px-6 py-4">
                         <select
                           {...register(`items.${index}.productId`)}
                           onChange={(e) => handleProductSelect(index, e.target.value)}
-                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 outline-none text-sm transition-all"
+                          className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 outline-none text-sm transition-all"
                         >
                           <option value="">Select product...</option>
                           {products?.content.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -194,13 +194,13 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
                         <input
                           type="number"
                           {...register(`items.${index}.quantity`)}
-                          className="w-20 px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 outline-none text-sm transition-all"
+                          className="w-20 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 outline-none text-sm transition-all"
                         />
                       </td>
-                      <td className="px-6 py-4 font-medium text-slate-600 text-sm">
+                      <td className="px-6 py-4 font-medium text-slate-600 dark:text-slate-300 text-sm">
                         {formatCurrency(watchedItems[index]?.price || 0)}
                       </td>
-                      <td className="px-6 py-4 font-bold text-slate-900 text-sm">
+                      <td className="px-6 py-4 font-bold text-slate-900 dark:text-white text-sm">
                         {formatCurrency((watchedItems[index]?.price || 0) * (watchedItems[index]?.quantity || 0))}
                       </td>
                       <td className="px-6 py-4">
@@ -227,11 +227,11 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, onClose, isSubmitti
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-slate-700">Notes (Optional)</label>
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Notes (Optional)</label>
             <textarea
               {...register('notes')}
               rows={2}
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-orange-500/20 outline-none text-sm resize-none transition-all"
+              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-orange-500/20 outline-none text-sm resize-none transition-all"
               placeholder="Add terms, bank details, or internal notes..."
             />
           </div>

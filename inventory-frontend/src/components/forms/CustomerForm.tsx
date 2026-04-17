@@ -36,12 +36,12 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ initialData, onSubmit, onCl
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-200">
-        <div className="flex items-center justify-between p-6 border-b border-slate-100">
-          <h3 className="text-xl font-bold text-slate-900">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div className="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-700">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white">
             {initialData ? 'Edit Customer' : 'Add New Customer'}
           </h3>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-full">
+          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:bg-slate-900/50 rounded-full">
             <X size={20} />
           </button>
         </div>
@@ -49,19 +49,19 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ initialData, onSubmit, onCl
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">Full Name</label>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">Full Name</label>
               <input
                 {...register('name')}
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="John Doe"
               />
               {errors.name && <p className="mt-1 text-xs font-medium text-red-600">{errors.name.message}</p>}
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">Email</label>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">Email</label>
               <input
                 {...register('email')}
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="john@example.com"
               />
               {errors.email && <p className="mt-1 text-xs font-medium text-red-600">{errors.email.message}</p>}
@@ -69,20 +69,20 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ initialData, onSubmit, onCl
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">Phone Number</label>
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">Phone Number</label>
             <input
               {...register('phone')}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+              className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
               placeholder="+91 98765 43210"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">Address</label>
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">Address</label>
             <textarea
               {...register('address')}
               rows={3}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all resize-none"
+              className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all resize-none"
               placeholder="Full mailing address"
             />
           </div>
@@ -91,7 +91,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ initialData, onSubmit, onCl
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+              className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 rounded-lg hover:bg-slate-50 dark:bg-slate-900/50 transition-colors"
             >
               Cancel
             </button>

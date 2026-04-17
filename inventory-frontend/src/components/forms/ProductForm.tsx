@@ -45,12 +45,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-2xl w-full overflow-hidden animate-in fade-in zoom-in duration-200">
-        <div className="flex items-center justify-between p-6 border-b border-slate-100">
-          <h3 className="text-xl font-bold text-slate-900">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 max-w-2xl w-full overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div className="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-700">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white">
             {initialData ? 'Edit Product' : 'Add New Product'}
           </h3>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-full">
+          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:bg-slate-900/50 rounded-full">
             <X size={20} />
           </button>
         </div>
@@ -58,24 +58,24 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">
                 Product Name
               </label>
               <input
                 {...register('name')}
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="e.g. Wireless Mouse"
               />
               {errors.name && <p className="mt-1 text-xs font-medium text-red-600">{errors.name.message}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">
                 SKU / Part Number
               </label>
               <input
                 {...register('sku')}
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="e.g. WRL-MSE-001"
               />
               {errors.sku && <p className="mt-1 text-xs font-medium text-red-600">{errors.sku.message}</p>}
@@ -83,12 +83,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">
               Category
             </label>
             <select
               {...register('categoryId')}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all bg-white"
+              className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all bg-white dark:bg-slate-800"
             >
               <option value="">Select a category</option>
               {categories?.content.map(cat => (
@@ -100,27 +100,27 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">
                 Unit Price (₹)
               </label>
               <input
                 {...register('price')}
                 type="number"
                 step="0.01"
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="0.00"
               />
               {errors.price && <p className="mt-1 text-xs font-medium text-red-600">{errors.price.message}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">
                 Initial Stock
               </label>
               <input
                 {...register('quantity')}
                 type="number"
-                className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all"
                 placeholder="0"
                 disabled={!!initialData}
               />
@@ -130,13 +130,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">
               Description
             </label>
             <textarea
               {...register('description')}
               rows={3}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all resize-none"
+              className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all resize-none"
               placeholder="Provide a detailed product description"
             />
             {errors.description && <p className="mt-1 text-xs font-medium text-red-600">{errors.description.message}</p>}
@@ -146,7 +146,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onClos
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+              className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 rounded-lg hover:bg-slate-50 dark:bg-slate-900/50 transition-colors"
             >
               Cancel
             </button>

@@ -11,7 +11,7 @@ interface RecentInvoicesTableProps {
 }
 
 const statusColors = {
-  DRAFT: 'bg-slate-100 text-slate-700',
+  DRAFT: 'bg-slate-100 dark:bg-slate-800/50 text-slate-700 dark:text-slate-200',
   ISSUED: 'bg-orange-100 text-orange-600',
   PAID: 'bg-emerald-100 text-emerald-700',
   CANCELLED: 'bg-rose-100 text-rose-700',
@@ -22,11 +22,11 @@ const RecentInvoicesTable: React.FC<RecentInvoicesTableProps> = ({ data, isLoadi
 
   if (isLoading) {
     return (
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-pulse">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm animate-pulse">
         <div className="h-4 bg-slate-200 rounded w-1/4 mb-6" />
         <div className="space-y-4">
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="h-10 bg-slate-100 rounded-lg" />
+            <div key={i} className="h-10 bg-slate-100 dark:bg-slate-800/50 rounded-lg" />
           ))}
         </div>
       </div>
@@ -34,10 +34,10 @@ const RecentInvoicesTable: React.FC<RecentInvoicesTableProps> = ({ data, isLoadi
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
+    <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-full">
       <div className="p-6 pb-4">
-        <h3 className="text-slate-900 font-bold text-lg">Recent Invoices</h3>
-        <p className="text-slate-500 text-sm">Latest billing activity</p>
+        <h3 className="text-slate-900 dark:text-white font-bold text-lg">Recent Invoices</h3>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Latest billing activity</p>
       </div>
 
       <div className="flex-1 overflow-x-auto">
@@ -46,19 +46,19 @@ const RecentInvoicesTable: React.FC<RecentInvoicesTableProps> = ({ data, isLoadi
             {data?.map((invoice) => (
               <tr 
                 key={invoice.id} 
-                className="hover:bg-slate-50/50 transition-colors cursor-pointer group"
+                className="hover:bg-slate-50 dark:bg-slate-900/50/50 transition-colors cursor-pointer group"
                 onClick={() => navigate('/billing/invoices')}
               >
                 <td className="px-6 py-4">
-                  <div className="text-sm font-bold text-slate-900 group-hover:text-orange-500 transition-colors">
+                  <div className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-orange-500 transition-colors">
                     {invoice.invoiceNumber}
                   </div>
                   <div className="text-[11px] text-slate-400 font-medium">{formatDate(invoice.createdAt)}</div>
                 </td>
-                <td className="px-6 py-4 text-sm text-slate-600 font-medium">
+                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-300 font-medium">
                   {invoice.customerName}
                 </td>
-                <td className="px-6 py-4 text-sm font-bold text-slate-900 text-right">
+                <td className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-white text-right">
                   {formatCurrency(invoice.total)}
                 </td>
                 <td className="px-6 py-4 text-right">
@@ -84,7 +84,7 @@ const RecentInvoicesTable: React.FC<RecentInvoicesTableProps> = ({ data, isLoadi
 
       <Link 
         to="/billing/invoices" 
-        className="p-4 border-t border-slate-100 text-center text-orange-500 text-sm font-bold hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5"
+        className="p-4 border-t border-slate-100 dark:border-slate-700 text-center text-orange-500 text-sm font-bold hover:bg-slate-50 dark:bg-slate-900/50 transition-colors flex items-center justify-center gap-1.5"
       >
         View all invoices <ArrowRight size={14} />
       </Link>

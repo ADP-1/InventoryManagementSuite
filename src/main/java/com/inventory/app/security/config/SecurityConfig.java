@@ -31,7 +31,9 @@ public class SecurityConfig {
     private final org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource;
 
     private static final String[] PUBLIC_ENDPOINTS = {
-            "/auth/**",
+            "/auth/login",
+            "/auth/register",
+            "/auth/refresh",
             "/actuator/**",
             "/swagger-ui/**",
             "/swagger-ui.html",

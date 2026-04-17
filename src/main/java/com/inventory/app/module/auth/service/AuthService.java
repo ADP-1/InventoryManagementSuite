@@ -5,6 +5,7 @@ import com.inventory.app.module.auth.dto.AuthResponse;
 import com.inventory.app.module.auth.dto.LoginRequest;
 import com.inventory.app.module.auth.dto.RefreshRequest;
 import com.inventory.app.module.auth.dto.RegisterRequest;
+import com.inventory.app.module.auth.dto.UpdateProfileRequest;
 import com.inventory.app.module.user.entity.User;
 import com.inventory.app.module.user.repository.UserRepository;
 import com.inventory.app.security.util.JwtUtil;
@@ -49,7 +50,7 @@ public class AuthService {
         log.info("Registered new user: {} with role: {}", user.getEmail(), user.getRole());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        return buildAuthResponse(userDetails, user.getRole().name());
+        return buildAuthResponse(userDetails, user);
     }
 
     // ─── Login ───────────────────────────────────────────────────────────────
@@ -65,7 +66,7 @@ public class AuthService {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
         log.info("User logged in: {}", user.getEmail());
-        return buildAuthResponse(userDetails, user.getRole().name());
+        return buildAuthResponse(userDetails, user);
     }
 
     // ─── Refresh ─────────────────────────────────────────────────────────────
@@ -91,15 +92,37 @@ public class AuthService {
                 .accessToken(newAccessToken)
                 .refreshToken(refreshToken)   // reuse same refresh token
                 .tokenType("Bearer")
+                .name(user.getName())
                 .email(user.getEmail())
                 .role(user.getRole().name())
                 .expiresIn(jwtUtil.getJwtExpiration())
                 .build();
     }
 
+    // ─── Update Profile ──────────────────────────────────────────────────────
+    
+    @Transactional
+    public AuthResponse updateProfile(String currentEmail, UpdateProfileRequest request) {
+        User user = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!currentEmail.equals(request.getEmail()) && userRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateResourceException("User", "email", request.getEmail());
+        }
+
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        userRepository.save(user);
+
+        log.info("User updated profile: {}", user.getEmail());
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        return buildAuthResponse(userDetails, user);
+    }
+
     // ─── Helper ──────────────────────────────────────────────────────────────
 
-    private AuthResponse buildAuthResponse(UserDetails userDetails, String role) {
+    private AuthResponse buildAuthResponse(UserDetails userDetails, User user) {
         String accessToken = jwtUtil.generateAccessToken(userDetails);
         String refreshToken = jwtUtil.generateRefreshToken(userDetails);
 
@@ -107,8 +130,9 @@ public class AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
-                .email(userDetails.getUsername())
-                .role(role)
+                .name(user.getName())
+                .email(user.getEmail())
+                .role(user.getRole().name())
                 .expiresIn(jwtUtil.getJwtExpiration())
                 .build();
     }

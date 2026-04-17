@@ -83,4 +83,31 @@ class AuthControllerIntegrationTest {
         mockMvc.perform(get("/inventory/products"))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    void shouldUpdateProfileSuccessfully() throws Exception {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setName("Integration Test");
+        registerRequest.setEmail("it@example.com");
+        registerRequest.setPassword("password123");
+        registerRequest.setRole(Role.ADMIN);
+
+        String loginResponse = mockMvc.perform(post("/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(registerRequest)))
+                .andReturn().getResponse().getContentAsString();
+
+        String token = objectMapper.readTree(loginResponse).get("data").get("accessToken").asText();
+
+        com.inventory.app.module.auth.dto.UpdateProfileRequest updateRequest = new com.inventory.app.module.auth.dto.UpdateProfileRequest();
+        updateRequest.setName("Updated Name");
+        updateRequest.setEmail("updated@example.com");
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put("/auth/profile")
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateRequest)))
+                .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
+    }
 }

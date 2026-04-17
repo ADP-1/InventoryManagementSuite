@@ -78,7 +78,7 @@ const InvoicesPage: React.FC = () => {
     { 
       header: 'Invoice #', 
       accessor: (item: InvoiceResponse) => (
-        <span className="font-bold text-slate-900">{item.invoiceNumber}</span>
+        <span className="font-bold text-slate-900 dark:text-white">{item.invoiceNumber}</span>
       )
     },
     { header: 'Customer', accessor: 'customerName' as keyof InvoiceResponse },
@@ -89,7 +89,7 @@ const InvoicesPage: React.FC = () => {
     { 
       header: 'Total', 
       accessor: (item: InvoiceResponse) => (
-        <span className="font-bold text-slate-900">{formatCurrency(item.total)}</span>
+        <span className="font-bold text-slate-900 dark:text-white">{formatCurrency(item.total)}</span>
       )
     },
     { 
@@ -99,7 +99,7 @@ const InvoicesPage: React.FC = () => {
           "px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider",
           item.status === 'PAID' ? "bg-green-100 text-green-700" :
           item.status === 'ISSUED' ? "bg-blue-100 text-blue-700" :
-          item.status === 'CANCELLED' ? "bg-red-100 text-red-700" : "bg-slate-100 text-slate-700"
+          item.status === 'CANCELLED' ? "bg-red-100 text-red-700" : "bg-slate-100 dark:bg-slate-800/50 text-slate-700 dark:text-slate-200"
         )}>
           {item.status}
         </span>
@@ -184,7 +184,7 @@ const InvoicesPage: React.FC = () => {
                 toast.error('Export failed', { id: loadingToast });
               }
             }}
-            className="flex items-center px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-sm shadow-sm transition-all active:scale-95"
+            className="flex items-center px-4 py-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:bg-slate-900/50 font-bold text-sm shadow-sm transition-all active:scale-95"
           >
             <Download size={18} className="mr-2 text-orange-500" />
             Export CSV
@@ -200,14 +200,14 @@ const InvoicesPage: React.FC = () => {
       </PageHeader>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-        <div className="flex bg-slate-100 p-1 rounded-xl w-fit">
+        <div className="flex bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl w-fit">
           {statusTabs.map(tab => (
             <button
               key={tab.label}
               onClick={() => setParams(p => ({ ...p, status: tab.value, page: 0 }))}
               className={cn(
                 "px-4 py-1.5 text-xs font-bold rounded-lg transition-all",
-                params.status === tab.value ? "bg-white text-orange-500 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                params.status === tab.value ? "bg-white dark:bg-slate-800 text-orange-500 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:text-slate-200"
               )}
             >
               {tab.label}
@@ -235,17 +235,17 @@ const InvoicesPage: React.FC = () => {
 
       {selectedInvoice && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white">
-              <h3 className="text-xl font-bold text-slate-900">Invoice {selectedInvoice.invoiceNumber}</h3>
-              <button onClick={() => setSelectedInvoice(null)} className="p-2 text-slate-400 hover:text-slate-600"><XCircle size={20} /></button>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="p-6 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between sticky top-0 bg-white dark:bg-slate-800">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Invoice {selectedInvoice.invoiceNumber}</h3>
+              <button onClick={() => setSelectedInvoice(null)} className="p-2 text-slate-400 hover:text-slate-600 dark:text-slate-300"><XCircle size={20} /></button>
             </div>
             <div className="p-8 space-y-6">
               <div className="grid grid-cols-2 gap-8">
                 <div>
                   <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Customer</p>
-                  <p className="font-bold text-slate-900">{selectedInvoice.customerName}</p>
-                  <p className="text-sm text-slate-500">{selectedInvoice.customerEmail}</p>
+                  <p className="font-bold text-slate-900 dark:text-white">{selectedInvoice.customerName}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{selectedInvoice.customerEmail}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Status</p>
@@ -253,16 +253,16 @@ const InvoicesPage: React.FC = () => {
                     "px-3 py-1 rounded-full text-xs font-black uppercase",
                     selectedInvoice.status === 'PAID' ? "bg-green-100 text-green-700" :
                     selectedInvoice.status === 'ISSUED' ? "bg-blue-100 text-blue-700" :
-                    selectedInvoice.status === 'CANCELLED' ? "bg-red-100 text-red-700" : "bg-slate-100 text-slate-700"
+                    selectedInvoice.status === 'CANCELLED' ? "bg-red-100 text-red-700" : "bg-slate-100 dark:bg-slate-800/50 text-slate-700 dark:text-slate-200"
                   )}>
                     {selectedInvoice.status}
                   </span>
                 </div>
               </div>
               
-              <div className="border border-slate-100 rounded-xl overflow-hidden">
+              <div className="border border-slate-100 dark:border-slate-700 rounded-xl overflow-hidden">
                 <table className="w-full text-sm">
-                  <thead className="bg-slate-50 text-slate-500 font-bold uppercase text-[10px]">
+                  <thead className="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold uppercase text-[10px]">
                     <tr>
                       <th className="px-4 py-2 text-left">Item</th>
                       <th className="px-4 py-2 text-center">Qty</th>
@@ -285,19 +285,19 @@ const InvoicesPage: React.FC = () => {
               
               <div className="flex justify-end">
                 <div className="w-64 space-y-2 text-sm">
-                  <div className="flex justify-between text-slate-500">
+                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
                     <span>Subtotal</span>
                     <span>{formatCurrency(selectedInvoice.subtotal)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-500">
+                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
                     <span>Tax ({selectedInvoice.taxPercent}%)</span>
                     <span className="text-orange-500">+{formatCurrency(selectedInvoice.tax)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-500">
+                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
                     <span>Discount</span>
                     <span className="text-red-600">-{formatCurrency(selectedInvoice.discount)}</span>
                   </div>
-                  <div className="flex justify-between pt-2 border-t border-slate-200 font-black text-lg text-slate-900">
+                  <div className="flex justify-between pt-2 border-t border-slate-200 dark:border-slate-700 font-black text-lg text-slate-900 dark:text-white">
                     <span>Total</span>
                     <span>{formatCurrency(selectedInvoice.total)}</span>
                   </div>

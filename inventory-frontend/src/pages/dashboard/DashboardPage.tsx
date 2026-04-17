@@ -119,7 +119,7 @@ const DashboardPage: React.FC = () => {
                   {Number(momChange) >= 0 ? '+' : ''}{momChange}%
                 </span>
               ) : (
-                <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-white/20 text-white">
+                <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-white dark:bg-slate-800/20 text-white">
                   N/A
                 </span>
               )}
@@ -177,10 +177,10 @@ const DashboardPage: React.FC = () => {
       {/* Layout grid for Section 3 & 4 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Section 3 - Monthly Revenue Chart (col-span-2) */}
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm p-6 border border-slate-100">
+        <div className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl shadow-sm p-6 border border-slate-100 dark:border-slate-700">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-bold text-slate-900">Revenue Overview</h3>
-            <div className="text-sm font-medium text-slate-500 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Revenue Overview</h3>
+            <div className="text-sm font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 px-3 py-1 rounded-lg border border-slate-100 dark:border-slate-700">
               {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
             </div>
           </div>
@@ -225,23 +225,23 @@ const DashboardPage: React.FC = () => {
         </div>
 
         {/* Section 4 - Target Prediction Widget (col-span-1) */}
-        <div className="lg:col-span-1 bg-white rounded-2xl shadow-sm p-6 border border-slate-100 flex flex-col">
-          <h3 className="text-lg font-bold text-slate-900 mb-6">Monthly Target</h3>
+        <div className="lg:col-span-1 bg-white dark:bg-slate-800 rounded-2xl shadow-sm p-6 border border-slate-100 dark:border-slate-700 flex flex-col">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">Monthly Target</h3>
           
           <div className="flex-1 flex flex-col justify-center">
             <div className="flex items-end justify-between mb-2">
               <div>
-                <p className="text-3xl font-bold text-slate-900">
+                <p className="text-3xl font-bold text-slate-900 dark:text-white">
                   ₹{currentMonthRevenue.toLocaleString('en-IN')}
                 </p>
-                <p className="text-sm text-slate-500 font-medium mt-1">
+                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">
                   of ₹{MONTHLY_TARGET.toLocaleString('en-IN')}
                 </p>
               </div>
             </div>
 
             <div className="mt-6 mb-3">
-              <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-slate-100 dark:bg-slate-800/50 rounded-full h-2 overflow-hidden">
                 <div 
                   className="bg-orange-500 h-2 rounded-full transition-all duration-1000 ease-out" 
                   style={{ width: `${progressPct}%` }}
@@ -263,15 +263,15 @@ const DashboardPage: React.FC = () => {
       </div>
 
       {/* Section 5 - Product List (Bottom, full width) */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-        <div className="flex items-center gap-6 px-6 border-b border-slate-100">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
+        <div className="flex items-center gap-6 px-6 border-b border-slate-100 dark:border-slate-700">
           <button
             onClick={() => setActiveTab('low-stock')}
             className={cn(
               "py-4 text-sm transition-colors relative",
               activeTab === 'low-stock' 
                 ? "text-orange-600 font-medium" 
-                : "text-slate-400 hover:text-slate-600 font-medium"
+                : "text-slate-400 hover:text-slate-600 dark:text-slate-300 font-medium"
             )}
           >
             Low Stock
@@ -285,7 +285,7 @@ const DashboardPage: React.FC = () => {
               "py-4 text-sm transition-colors relative",
               activeTab === 'recent' 
                 ? "text-orange-600 font-medium" 
-                : "text-slate-400 hover:text-slate-600 font-medium"
+                : "text-slate-400 hover:text-slate-600 dark:text-slate-300 font-medium"
             )}
           >
             Recently Added
@@ -297,7 +297,7 @@ const DashboardPage: React.FC = () => {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-slate-50 text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+            <thead className="bg-slate-50 dark:bg-slate-900/50 text-[10px] font-bold uppercase text-slate-400 tracking-wider">
               <tr>
                 <th className="px-6 py-4 rounded-tl-lg">Product</th>
                 <th className="px-6 py-4">Category</th>
@@ -312,32 +312,32 @@ const DashboardPage: React.FC = () => {
                 ) : !lowStockData?.content || lowStockData.content.filter(p => p.quantity <= 10).length === 0 ? (
                   <tr>
                     <td colSpan={4} className="py-12 text-center">
-                      <div className="flex flex-col items-center justify-center text-slate-500">
+                      <div className="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
                         <CheckCircle2 size={32} className="text-green-500 mb-3" />
-                        <p className="font-medium text-slate-900">All products are well stocked</p>
+                        <p className="font-medium text-slate-900 dark:text-white">All products are well stocked</p>
                       </div>
                     </td>
                   </tr>
                 ) : (
                   lowStockData.content.filter(p => p.quantity <= 10).map(product => (
-                    <tr key={product.id} className="hover:bg-slate-50/50 transition-colors">
+                    <tr key={product.id} className="hover:bg-slate-50 dark:bg-slate-900/50/50 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className={cn("w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shrink-0", getAvatarStyle(product.name))}>
                             {getInitials(product.name)}
                           </div>
                           <div>
-                            <p className="font-bold text-slate-900">{product.name}</p>
-                            <p className="text-xs text-slate-500">{product.sku}</p>
+                            <p className="font-bold text-slate-900 dark:text-white">{product.name}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">{product.sku}</p>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-medium">
+                        <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-medium">
                           {product.categoryName}
                         </span>
                       </td>
-                      <td className="px-6 py-4 font-medium text-slate-700">
+                      <td className="px-6 py-4 font-medium text-slate-700 dark:text-slate-200">
                         ₹{product.price.toLocaleString('en-IN')}
                       </td>
                       <td className="px-6 py-4 text-right">
@@ -357,32 +357,32 @@ const DashboardPage: React.FC = () => {
                 ) : !recentData?.content || recentData.content.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="py-12 text-center">
-                      <p className="font-medium text-slate-500">No recent products</p>
+                      <p className="font-medium text-slate-500 dark:text-slate-400">No recent products</p>
                     </td>
                   </tr>
                 ) : (
                   recentData.content.map(product => (
-                    <tr key={product.id} className="hover:bg-slate-50/50 transition-colors">
+                    <tr key={product.id} className="hover:bg-slate-50 dark:bg-slate-900/50/50 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className={cn("w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shrink-0", getAvatarStyle(product.name))}>
                             {getInitials(product.name)}
                           </div>
                           <div>
-                            <p className="font-bold text-slate-900">{product.name}</p>
-                            <p className="text-xs text-slate-500">{product.sku}</p>
+                            <p className="font-bold text-slate-900 dark:text-white">{product.name}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">{product.sku}</p>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-medium">
+                        <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-medium">
                           {product.categoryName}
                         </span>
                       </td>
-                      <td className="px-6 py-4 font-medium text-slate-700">
+                      <td className="px-6 py-4 font-medium text-slate-700 dark:text-slate-200">
                         ₹{product.price.toLocaleString('en-IN')}
                       </td>
-                      <td className="px-6 py-4 text-right text-sm text-slate-500 font-medium">
+                      <td className="px-6 py-4 text-right text-sm text-slate-500 dark:text-slate-400 font-medium">
                         {product.createdAt ? new Date(product.createdAt).toLocaleDateString() : 'N/A'}
                       </td>
                     </tr>

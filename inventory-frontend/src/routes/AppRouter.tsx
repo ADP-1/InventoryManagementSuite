@@ -15,7 +15,7 @@ const SettingsPage = React.lazy(() => import('../pages/settings/SettingsPage'));
 
 const SuspenseLayout = () => (
   <Suspense fallback={
-    <div className="h-screen w-full flex items-center justify-center bg-slate-50">
+    <div className="h-screen w-full flex items-center justify-center bg-slate-50 dark:bg-slate-900/50">
       <LoadingSpinner size={40} />
     </div>
   }>

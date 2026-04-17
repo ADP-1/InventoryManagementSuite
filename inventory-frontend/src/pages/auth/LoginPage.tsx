@@ -38,20 +38,20 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900/50 p-4">
       <div className="max-w-md w-full">
-        <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
+        <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700">
           <div className="text-center mb-10">
             <div className="w-16 h-16 bg-orange-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-200 rotate-3">
               <LogIn size={32} />
             </div>
-            <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
-            <p className="text-slate-500 mt-2">Sign in to manage your inventory</p>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome Back</h1>
+            <p className="text-slate-500 dark:text-slate-400 mt-2">Sign in to manage your inventory</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2 ml-1">
+              <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2 ml-1">
                 Email Address
               </label>
               <div className="relative group">
@@ -63,7 +63,7 @@ const LoginPage: React.FC = () => {
                   {...register('email')}
                   type="email"
                   autoComplete="username"
-                  className="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
+                  className="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
                   placeholder="name@example.com"
                 />
               </div>
@@ -73,7 +73,7 @@ const LoginPage: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-slate-700 mb-2 ml-1">
+              <label htmlFor="password" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2 ml-1">
                 Password
               </label>
               <div className="relative group">
@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
                   {...register('password')}
                   type="password"
                   autoComplete="current-password"
-                  className="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
+                  className="block w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
                   placeholder="••••••••"
                 />
               </div>
@@ -110,8 +110,8 @@ const LoginPage: React.FC = () => {
             </button>
           </form>
 
-          <div className="mt-10 pt-6 border-t border-slate-100 text-center">
-            <p className="text-slate-500 text-sm">
+          <div className="mt-10 pt-6 border-t border-slate-100 dark:border-slate-700 text-center">
+            <p className="text-slate-500 dark:text-slate-400 text-sm">
               Contact administrator if you forgot your credentials.
             </p>
           </div>

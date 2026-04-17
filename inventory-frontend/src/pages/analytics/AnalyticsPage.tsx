@@ -28,8 +28,8 @@ const AnalyticsPage: React.FC = () => {
         <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-rose-100">
           <AlertCircle size={40} />
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">Access Restricted</h1>
-        <p className="text-slate-500 max-w-md mb-8">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Access Restricted</h1>
+        <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
           You don't have the required permissions to view the analytics dashboard. Please contact your administrator for access.
         </p>
         <button 
@@ -50,12 +50,12 @@ const AnalyticsPage: React.FC = () => {
   const recentInvoicesQuery = useRecentInvoices(5);
 
   const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
-    <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[200px] text-center">
+    <div className="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[200px] text-center">
       <AlertCircle className="text-slate-400 mb-3" size={24} />
-      <p className="text-sm font-semibold text-slate-500 mb-4">Failed to load data</p>
+      <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-4">Failed to load data</p>
       <button 
         onClick={onRetry}
-        className="px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs font-bold rounded-lg hover:bg-slate-50 transition-all inline-flex items-center gap-2"
+        className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg hover:bg-slate-50 dark:bg-slate-900/50 transition-all inline-flex items-center gap-2"
       >
         <RefreshCw size={14} /> Retry
       </button>
@@ -70,7 +70,7 @@ const AnalyticsPage: React.FC = () => {
           description="Real-time business insights and performance metrics" 
         />
         
-        <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm self-start sm:self-auto">
+        <div className="flex items-center gap-2 bg-white dark:bg-slate-800 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm self-start sm:self-auto">
           <div className="px-3 py-1.5 text-slate-400">
             <Calendar size={18} />
           </div>
@@ -82,7 +82,7 @@ const AnalyticsPage: React.FC = () => {
                 "px-4 py-1.5 text-sm font-bold rounded-lg transition-all",
                 days === option 
                   ? "bg-orange-500 text-white shadow-md shadow-orange-100" 
-                  : "text-slate-500 hover:text-orange-600 hover:bg-orange-50"
+                  : "text-slate-500 dark:text-slate-400 hover:text-orange-600 hover:bg-orange-50"
               )}
             >
               {option} Days

@@ -39,11 +39,11 @@ const Topbar: React.FC = () => {
   };
 
   return (
-    <header className="h-24 bg-slate-50 flex items-center px-8 sticky top-0 z-30">
+    <header className="h-24 bg-slate-50 dark:bg-slate-900 flex items-center px-8 sticky top-0 z-30 transition-colors duration-200 border-b border-transparent dark:border-slate-800">
       <div className="flex-1 flex items-center justify-between">
         <div>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Welcome Back!</p>
-          <h2 className="text-xl font-black text-slate-900 tracking-tight">
+          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 dark:text-slate-400 uppercase tracking-widest">Welcome Back!</p>
+          <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
             {email?.split('@')[0] || 'User'} <span className="inline-block animate-bounce-slow">👋</span>
           </h2>
         </div>
@@ -52,22 +52,22 @@ const Topbar: React.FC = () => {
           {/* Global Search Bar */}
           <div ref={searchRef} className="w-80 relative">
             <div className={cn(
-              "flex items-center gap-3 px-4 py-2.5 bg-white border rounded-2xl transition-all duration-200",
-              isSearchFocused ? "border-orange-500 ring-4 ring-orange-50 shadow-sm" : "border-slate-100"
+              "flex items-center gap-3 px-4 py-2.5 bg-white dark:bg-slate-900 border rounded-2xl transition-all duration-200",
+              isSearchFocused ? "border-orange-500 ring-4 ring-orange-50 dark:ring-orange-500/20 shadow-sm" : "border-slate-100 dark:border-slate-700"
             )}>
-              <Search size={18} className={cn(isSearchFocused ? "text-orange-500" : "text-slate-400")} />
+              <Search size={18} className={cn(isSearchFocused ? "text-orange-500" : "text-slate-400 dark:text-slate-500 dark:text-slate-400")} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
                 placeholder="Search.."
-                className="bg-transparent border-none outline-none w-full text-sm font-medium text-slate-700 placeholder:text-slate-400"
+                className="bg-transparent border-none outline-none w-full text-sm font-medium text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 dark:text-slate-400"
               />
               {isLoading ? (
                 <Loader2 size={16} className="animate-spin text-orange-500" />
               ) : searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-slate-600">
+                <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-300">
                   <X size={16} />
                 </button>
               )}
@@ -75,7 +75,7 @@ const Topbar: React.FC = () => {
 
             {/* Search Results Dropdown */}
             {isSearchFocused && searchQuery.length >= 2 && (
-              <div className="absolute top-full left-0 right-0 mt-3 bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute top-full left-0 right-0 mt-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-2xl dark:shadow-none overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="max-h-[400px] overflow-y-auto">
                   {results.length > 0 ? (
                     <div className="p-2">
@@ -83,25 +83,25 @@ const Topbar: React.FC = () => {
                         <button
                           key={`${result.type}-${idx}`}
                           onClick={() => handleResultClick(result)}
-                          className="w-full flex items-center justify-between p-3 hover:bg-slate-50 rounded-2xl transition-colors group"
+                          className="w-full flex items-center justify-between p-3 hover:bg-slate-50 dark:bg-slate-900/50 dark:hover:bg-slate-700/50 rounded-2xl transition-colors group"
                         >
                           <div className="flex items-center gap-4 text-left">
                             <div className={cn(
-                              "p-2.5 rounded-xl group-hover:bg-white group-hover:shadow-sm transition-all",
-                              result.type === 'PRODUCT' ? "bg-orange-50 text-orange-600" :
-                              result.type === 'CUSTOMER' ? "bg-emerald-50 text-emerald-600" : "bg-purple-50 text-purple-600"
+                              "p-2.5 rounded-xl group-hover:bg-white dark:bg-slate-800 dark:group-hover:bg-slate-800 group-hover:shadow-sm transition-all",
+                              result.type === 'PRODUCT' ? "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400" :
+                              result.type === 'CUSTOMER' ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400"
                             )}>
                               {result.type === 'PRODUCT' && <Package size={18} />}
                               {result.type === 'CUSTOMER' && <User size={18} />}
                               {result.type === 'INVOICE' && <FileText size={18} />}
                             </div>
                             <div>
-                              <p className="text-sm font-bold text-slate-900 leading-tight">
+                              <p className="text-sm font-bold text-slate-900 dark:text-white leading-tight">
                                 {result.type === 'PRODUCT' ? (result.data as any).name :
                                  result.type === 'CUSTOMER' ? (result.data as any).name :
                                  (result.data as any).invoiceNumber}
                               </p>
-                              <p className="text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                              <p className="text-[10px] font-black uppercase text-slate-400 dark:text-slate-500 dark:text-slate-400 tracking-wider">
                                 {result.type} {result.type === 'PRODUCT' ? `• ${(result.data as any).sku}` : ''}
                               </p>
                             </div>
@@ -111,7 +111,7 @@ const Topbar: React.FC = () => {
                     </div>
                   ) : !isLoading && (
                     <div className="p-8 text-center">
-                      <p className="text-sm font-bold text-slate-400">No results found for "{searchQuery}"</p>
+                      <p className="text-sm font-bold text-slate-400 dark:text-slate-500 dark:text-slate-400">No results found for "{searchQuery}"</p>
                     </div>
                   )}
                 </div>
@@ -123,9 +123,9 @@ const Topbar: React.FC = () => {
           <div className="relative" ref={userMenuRef}>
             <button 
               onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-              className="flex items-center gap-3 p-1.5 pr-3 rounded-2xl bg-white border border-slate-100 hover:bg-slate-50 transition-all duration-200 group"
+              className="flex items-center gap-3 p-1.5 pr-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:bg-slate-900/50 dark:hover:bg-slate-800 transition-all duration-200 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-orange-100 border border-orange-200 flex items-center justify-center overflow-hidden shrink-0 transition-transform group-hover:scale-95">
+              <div className="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-500/20 border border-orange-200 dark:border-orange-500/30 flex items-center justify-center overflow-hidden shrink-0 transition-transform group-hover:scale-95">
                 <img 
                   src={`https://ui-avatars.com/api/?name=${email}&background=6366f1&color=fff`} 
                   alt="User" 
@@ -133,36 +133,26 @@ const Topbar: React.FC = () => {
                 />
               </div>
               <div className="hidden md:block text-left">
-                <p className="text-xs font-bold text-slate-900 truncate">
+                <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
                   {email?.split('@')[0] || 'User'}
                 </p>
-                <p className="text-[10px] font-medium text-slate-400 truncate w-24">
+                <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 dark:text-slate-400 truncate w-24">
                   {email}
                 </p>
               </div>
-              <ChevronDown size={14} className={cn("text-slate-400 transition-transform duration-200", isUserMenuOpen && "rotate-180")} />
+              <ChevronDown size={14} className={cn("text-slate-400 dark:text-slate-500 dark:text-slate-400 transition-transform duration-200", isUserMenuOpen && "rotate-180")} />
             </button>
 
             {/* Dropdown Menu */}
             {isUserMenuOpen && (
-              <div className="absolute top-full right-0 mt-3 w-56 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden">
-                <div className="px-4 py-3 border-b border-slate-50 mb-1">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Account</p>
+              <div className="absolute top-full right-0 mt-3 w-56 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl shadow-xl dark:shadow-none py-2 animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden">
+                <div className="px-4 py-3 border-b border-slate-50 dark:border-slate-700/50 mb-1">
+                  <p className="text-xs font-bold text-slate-400 dark:text-slate-500 dark:text-slate-400 uppercase tracking-widest">Account</p>
                 </div>
                 
                 <button 
-                  onClick={() => { setIsUserMenuOpen(false); navigate('/login'); }}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-orange-600 transition-colors"
-                >
-                  <UserCircle size={18} />
-                  Switch Account
-                </button>
-                
-                <div className="h-px bg-slate-50 my-1 mx-2" />
-                
-                <button 
                   onClick={() => { setIsUserMenuOpen(false); clearAuth(); }}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-rose-500 hover:bg-rose-50 transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-rose-500 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
                 >
                   <LogOut size={18} />
                   Logout
