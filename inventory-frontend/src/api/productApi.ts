@@ -31,11 +31,11 @@ export const productApi = {
     return response.data;
   },
   addStock: async (id: string, data: StockAdjustmentRequest) => {
-    const response = await axiosInstance.post<ApiResponse<ProductResponse>>(`/inventory/products/${id}/stock/add`, data);
+    const response = await axiosInstance.patch<ApiResponse<ProductResponse>>(`/inventory/products/${id}/stock/add`, data);
     return response.data;
   },
   deductStock: async (id: string, data: StockAdjustmentRequest) => {
-    const response = await axiosInstance.post<ApiResponse<ProductResponse>>(`/inventory/products/${id}/stock/deduct`, data);
+    const response = await axiosInstance.patch<ApiResponse<ProductResponse>>(`/inventory/products/${id}/stock/deduct`, data);
     return response.data;
   },
   exportCsv: async () => {
